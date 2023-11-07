@@ -1,6 +1,6 @@
 export default function Home() {
 
     return (
-        <p>Hola Mundo</p>
+        <p>Bienvenido al NOC Red Movil</p>
     )
 }

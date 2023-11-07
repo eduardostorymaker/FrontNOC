@@ -4,7 +4,7 @@ import Layout from "../Components/Layout/Layout"
 import './global.css'
 
 export const metadata = {
-  title: 'NOC Claro',
+  title: 'NOC Red Movil',
   description: 'Pagina del NOC desarrollado por Eduardo Espinoza',
 }
 
