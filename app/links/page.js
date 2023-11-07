@@ -1,7 +1,7 @@
 import LinkGroup from "../../Components/Links/LinkGroup"
 
 const getDataLinks = async () => {
-    const res = await fetch("http://172.19.128.128:1337/api/datalinks?populate=*")
+    const res = await fetch("http://172.19.128.128:1337/api/datalinks?populate=*&sort[0]=priority:desc")
     const data = await res.json()
     return data
 }
