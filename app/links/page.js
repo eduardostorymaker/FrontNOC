@@ -7,7 +7,7 @@ const getDataLinks = async () => {
 }
 
 const getLinkGroup = async () => {
-    const res = await fetch("http://172.19.128.128:1337/api/linkgroups")
+    const res = await fetch("http://172.19.128.128:1337/api/linkgroups", {cache: 'no-store'})
     const data = await res.json()
     return data
 }
