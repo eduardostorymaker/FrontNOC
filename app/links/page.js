@@ -19,7 +19,7 @@ export default async function Links() {
     const getGroup = await getLinkGroup()
 
     return(
-        <div className="flex">
+        <div className="grid grid-cols-4 gap-4 p-4">
             {
                 getGroup?.data?.map(item =>
                     <LinkGroup key={item.id} groupName={item.attributes.name} dataLinks={getLinks} />

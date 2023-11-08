@@ -6,7 +6,7 @@ export default function SideBar() {
 
     const menu = [
         {
-            tag: "Enlaces de interes",
+            tag: "Enlaces",
             link: "/links",
             submenu: []
         }
@@ -45,7 +45,7 @@ export default function SideBar() {
 
 
     return(
-        <section className="border py-2 h-full">
+        <section className="border-2 border-red-200 py-2 h-full text-md font-bold">
             <div>
                 <ul>
                     <SideMenu menu={menu} />

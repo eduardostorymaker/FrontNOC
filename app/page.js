@@ -1,6 +1,10 @@
 export default function Home() {
 
     return (
-        <p>Bienvenido al NOC Red Movil</p>
+        <div className="p-4">
+            <p className="text-gray-700 font-bold">
+                Bienvenido al NOC Red Movil
+            </p>
+        </div>
     )
 }
