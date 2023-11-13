@@ -9,6 +9,11 @@ export default function SideBar() {
             tag: "Enlaces",
             link: "/links",
             submenu: []
+        },
+        {
+            tag: "Contactos",
+            link: "/contacts",
+            submenu: []
         }
     ]
 

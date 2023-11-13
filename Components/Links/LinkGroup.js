@@ -14,8 +14,8 @@ export default function LinkGroup ({ groupName, dataLinks }) {
 
     return(
         <div className="h-full">
-            <div className="flex flex-col shadow-lg shadow-md shadow-red-500/50 border-2 rounded-xl py-4">
-                <div className="flex w-full font-bold justify-center text-red-600 py-3 ">
+            <div className="flex flex-col shadow-lg shadow-red-500/50 rounded-xl pb-4 overflow-hidden">
+                <div className="flex w-full font-bold justify-center text-white py-3 bg-red-500 ">
                     <h3>
                         {groupName}
                     </h3>
