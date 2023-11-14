@@ -9,13 +9,15 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+
+  
+
  return (
     <html lang="es">
-      <body className="font-sans h-screen">        
+      <body className="font-sans h-screen">    
         <Layout>
           {children}
         </Layout>
-        
       </body>
     </html>
   )
