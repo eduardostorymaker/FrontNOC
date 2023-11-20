@@ -1,7 +1,10 @@
+'use client'
 import CardLine from "./CardLine";
 
 const filterList = (list, name) => {
-    const filteredList = list.datacontacts.data.filter(item => item.attributes.workteam.data.attributes.name === name)
+    console.log('list')
+    console.log(list)
+    const filteredList = list.data.filter(item => item.attributes.workteam.data.attributes.name === name)
     const orderedList = filteredList.sort((a,b) => (a.attributes.type.data.attributes.name > b.attributes.type.data.attributes.name ? -1 : a.attributes.type.data.attributes.name < b.attributes.type.data.attributes.name ? 1 : 0 ))
     return filteredList || []
 }

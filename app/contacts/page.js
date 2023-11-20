@@ -1,66 +1,31 @@
-import { gql } from "@apollo/client"
-
-
-import createApolloClient from "../../lib/apollo-client";
-import ApolloQuery from "../../lib/apollo-query";
-
 import ContactCard from "../../Components/Contacts/ContactCard";
 
+const getDataTeams = async () => {
+    const res = await fetch("http://172.19.128.128:1337/api/workteams?populate=*&sort[0]=priority:desc", {cache: 'no-store'})
+    const data = await res.json()
+    return data
+}
+
+const getDataList = async () => {
+    const res = await fetch("http://172.19.128.128:1337/api/datacontacts?populate=*", {cache: 'no-store'})
+    const data = await res.json()
+    return data
+}
 
 
 export default async function Contacts() {
    
-    const queryTeams = `
-    query {
-        workteams {
-          data {
-            attributes {
-              name,
-              description
-            }
-          }
-        }
-      }
-    `
-
-    const queryList = `
-    query {
-        datacontacts {
-            data {
-                attributes {
-                    value,
-                    type {
-                        data {
-                            attributes {
-                                type
-                            }
-                        }
-                    },
-                    workteam {
-                        data {
-                            attributes {
-                                name
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    `
-
-    const client = createApolloClient();
-    const dataTeams = await ApolloQuery(client, queryTeams)
-    const datalist = await ApolloQuery(client, queryList)
-    console.log("dataTeams")
+    const dataTeams = await getDataTeams()
+    const datalist = await getDataList()
+    console.log('dataTeams')
     console.log(dataTeams)
-
  
     return(
 
         <div className="grid grid-cols-4 grid-flow-row p-4 gap-4">
+            
             {
-                dataTeams?.workteams.data.map( item => 
+                dataTeams?.data.map( item => 
                     <ContactCard key={item.id} name={item.attributes.name} description={item.attributes.description} list={datalist} />
                 )
             }
