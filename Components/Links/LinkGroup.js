@@ -13,7 +13,7 @@ export default function LinkGroup ({ groupName, dataLinks }) {
     const dataFiltered = filterListByName(groupName,dataLinks)
 
     return(
-        <div className="h-full">
+        <div className="h-full min-w-[250px] max-w-[350px] mb-6">
             <div className="flex flex-col shadow-lg shadow-red-500/50 rounded-xl pb-4 overflow-hidden">
                 <div className="flex w-full font-bold justify-center text-white py-3 bg-red-500 ">
                     <h3>

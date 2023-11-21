@@ -16,7 +16,9 @@ export default function RootLayout({ children }) {
     <html lang="es">
       <body className="font-sans h-screen">    
         <Layout>
-          {children}
+          <div className="w-full h-full overflow-y-scroll overflow-x-hidden">
+            {children}
+          </div>
         </Layout>
       </body>
     </html>
