@@ -6,7 +6,7 @@ export default function BotonMenu ( { link, tag } ) {
         <li className="h-8">
             <Link 
                 href={link}
-                className="flex h-full w-full items-center px-2 text-gray-700 hover:bg-red-500 hover:text-white transition-all duration-300"
+                className="flex h-full w-full items-center px-2 text-gray-700 hover:bg-red-500 hover:text-white transition-all duration-300 border-b-[1px] border-red-300"
             >
                 {tag}
             </Link>

@@ -1,4 +1,4 @@
-import LinkGroup from "../../Components/Links/LinkGroup"
+import LinksPageTemplate from "../../Components/Links/LinksPageTemplate"
 
 const getDataLinks = async () => {
     const res = await fetch("http://172.19.128.128:1337/api/datalinks?populate=*&sort[0]=priority:desc", {cache: 'no-store'})
@@ -7,7 +7,7 @@ const getDataLinks = async () => {
 }
 
 const getLinkGroup = async () => {
-    const res = await fetch("http://172.19.128.128:1337/api/linkgroups", {cache: 'no-store'})
+    const res = await fetch("http://172.19.128.128:1337/api/linkgroups?sort[0]=priority:desc", {cache: 'no-store'})
     const data = await res.json()
     return data
 }
@@ -19,14 +19,7 @@ export default async function Links() {
     const getGroup = await getLinkGroup()
 
     return(
-        <div className="w-full flex p-4 flex-wrap justify-around">
-            {
-                getGroup?.data?.map(item =>
-                    <LinkGroup key={item.id} groupName={item.attributes.name} dataLinks={getLinks} />
-                )
-            }
-        </div>
+        <LinksPageTemplate getLinks={getLinks} getGroup={getGroup} />
     )
 }
 
-// className="grid grid-cols-4 gap-4 p-4"
