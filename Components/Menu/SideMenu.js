@@ -1,29 +1,27 @@
-import BotonMenu from "./BotonMenu"
+import ItemSideMenu from "./ItemSideMenu"
+
+const extractMenu = (menuList) => {
+    const menu = menuList.map(item =>{
+        return(
+            {
+                id: item.id,
+                tag: item.tag,
+                show: item.show
+            }
+        )
+    })
+    return menu
+}
 
 export default function SideMenu({ menu }) {
+
+    const menuList = extractMenu(menu)
 
     return(
         <>
         {
-            menu.map(item=> {
-                if (item.submenu) {
-                    return (
-                        <>
-                            <BotonMenu link={item.link} tag={item.tag} />
-                            <ul className="h-full w-full px-2">
-                                <SideMenu menu={item.submenu} />
-                            </ul>
-                        </>
-                    )
-                } else {
-                    return (
-                        <>
-                            <BotonMenu link={item.link} tag={item.tag} />
-                        </>
-                    )
-                }
-                
-            }
+            menuList.map(item=> 
+                <ItemSideMenu key={item.id} tag={item.tag} show={item.show} allMenu={menu} />
             )
         }
         </>
