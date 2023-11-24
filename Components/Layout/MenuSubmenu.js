@@ -5,7 +5,7 @@ export default function MenuSubmenu ({ changeSelection, dataFilter}) {
     const unSelectedStyles = sharedStyles+" "+"bg-red-500 text-white hover:text-red-500 hover:bg-white transition-all duration-300"
 
     return(
-        <div className="w-full h-full [&>*:first-child]:border-l-[1px] border-white">
+        <div className="w-full h-full [&>*:first-child]:border-l-[1px] border-white overflow-hidden">
         {
             dataFilter.map(item => 
                 <button 

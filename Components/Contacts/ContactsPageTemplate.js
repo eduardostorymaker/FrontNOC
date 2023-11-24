@@ -49,7 +49,7 @@ export default function ContactsPageTemplate ({ datalist }) {
                 <FilterContacts searchValue={searchValue} onChangeSearch={onChangeSearch}  />
             </Submenu>
 
-            <div className="grid grid-cols-4 grid-flow-row p-4 gap-4">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 gap-4">
                 {
                     groups?.map( item => 
                         <ContactCard key={item.id} name={item.name} description={item.description} list={contactList} />

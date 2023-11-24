@@ -136,7 +136,7 @@ const LinksPageTemplate = ({ getGroup, getLinks }) => {
             <Submenu>
                 <FilterGroup searchValue={searchValue} onChangeSearch={onChangeSearch} changeSelection={changeSelection} dataFilter={dataFilter} />
             </Submenu>
-            <div className="w-full p-4 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4  ">
+            <div className="w-full p-4 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {
                     groups.map(item =>
                         <LinkGroup key={item.id} groupName={item.name} dataLinks={dataLinks} />
