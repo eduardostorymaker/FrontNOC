@@ -3,13 +3,7 @@
 import FilterGroup from "../../Components/Links/FilterGroup"
 import LinkGroup from "../../Components/Links/LinkGroup"
 import { useState } from "react"
-
-const filterGroupByWord = (Group, filter) => {
-    console.log(Group)
-    console.log("Group")
-    const filteredGroup = Group.filter(item => item.attributes.name.includes(filter))
-    return filteredGroup
-}
+import Submenu from "../Layout/Submenu"
 
 const filterAll = [
     {
@@ -74,43 +68,78 @@ const filterNSS = [
     }
 ]
 
+const filterGroupByWord = (allData, filter) => {
+    const filteredGroup = allData.filter(item => item.attributes.group.data.attributes.name.toLowerCase().includes(filter.toLowerCase()))
+    return filteredGroup
+}
+
+
+const extractGroups = (dataLinks) => {
+    const groupList = dataLinks.map(item => {
+        return(
+            {
+                id: item.attributes.group.data.id,
+                name: item.attributes.group.data.attributes.name,
+                priority: item.attributes.group.data.attributes.priority
+            }
+        )
+    })
+    const uniqueValues = groupList.reduce((a,v)=>{
+        if (!a.map(item=>item.id).includes(v.id)) {
+            a.push(v)
+        }
+        return(a)
+    },[])
+    const orderedByPriority = uniqueValues.sort((a,b)=>a.priority>b.priority?-1:a.priority<b.priority?1:0)
+
+    return orderedByPriority
+}
+
+const filterAllBySearch = (allData, filter) => {
+    const filteredData = allData.filter(item => item.attributes.group.data.attributes.name.toLowerCase().includes(filter.toLowerCase()) || item.attributes.name.toLowerCase().includes(filter.toLowerCase()) || item.attributes.description.toLowerCase().includes(filter.toLowerCase()) )
+    return filteredData 
+}
+
 const LinksPageTemplate = ({ getGroup, getLinks }) => {
 
+    
     const [dataFilter,setDataFilter] = useState(filterAll)
-    const [dataGroup, setDataGroup] = useState(getGroup.data)
+    const [dataLinks,setDataLinks] = useState(getLinks.data)
+    const [searchValue, setSearchValue] = useState("")
 
+
+    const groups = extractGroups(dataLinks)
 
     const changeSelection = (id) => {
         if (id === "NSS") {
             setDataFilter(filterNSS)
-            setDataGroup(filterGroupByWord(getGroup.data,"NSS"))
+            setDataLinks(filterGroupByWord(getLinks.data,"NSS"))
         } else if (id === "PACO") {
             setDataFilter(filterPACO)
-            setDataGroup(filterGroupByWord(getGroup.data,"PACO"))
+            setDataLinks(filterGroupByWord(getLinks.data,"PACO"))
         } else {
             setDataFilter(filterAll)
-            setDataGroup(filterGroupByWord(getGroup.data,""))
+            setDataLinks(filterGroupByWord(getLinks.data,""))
         }
-
+        setSearchValue("")
     }
 
-    console.log("dataGroup")
-    console.log(dataGroup)
-
-    const selectFilter = () => {
-
-        setDataGroup(filterGroupByWord(dataGroup,"PACO"))
+    const onChangeSearch = (e) => {
+        console.log(e.target.value)
+        setSearchValue(e.target.value)
+        setDataLinks(filterAllBySearch(getLinks.data,e.target.value))
+        setDataFilter(filterAll)
     }
-    
+   
     return(
         <div className="w-full h-full">
-            <div className="bg-red-500">
-                <FilterGroup selectFilter={selectFilter} changeSelection={changeSelection} dataFilter={dataFilter} />
-            </div>
+            <Submenu>
+                <FilterGroup searchValue={searchValue} onChangeSearch={onChangeSearch} changeSelection={changeSelection} dataFilter={dataFilter} />
+            </Submenu>
             <div className="w-full p-4 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4  ">
                 {
-                    dataGroup.map(item =>
-                        <LinkGroup key={item.id} groupName={item.attributes.name} dataLinks={getLinks} />
+                    groups.map(item =>
+                        <LinkGroup key={item.id} groupName={item.name} dataLinks={dataLinks} />
                     )
                 }
             </div>

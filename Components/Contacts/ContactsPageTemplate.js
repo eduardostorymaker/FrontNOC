@@ -5,6 +5,7 @@ import { useState } from "react";
 import ContactCard from "../../Components/Contacts/ContactCard";
 import FilterContacts from "./FilterContacts";
 import { Cottage } from "@mui/icons-material";
+import Submenu from "../Layout/Submenu";
 
 const extractGroups = (datalist) => {
     
@@ -31,20 +32,23 @@ const extractGroups = (datalist) => {
 
 export default function ContactsPageTemplate ({ datalist }) {
 
+    const [searchValue,setSearchValue] = useState("")
     const [contactList,setContactList] = useState(datalist.data)  
     const groups = extractGroups(contactList)
     
-    const searchWord = (e) => {
+    const onChangeSearch = (e) => {
         const filtered = datalist.data.filter(item => item.attributes.value.toLowerCase().includes(e.target.value.toLowerCase())||item.attributes.workteam.data.attributes.name.toLowerCase().includes(e.target.value.toLowerCase()) ||item.attributes.workteam.data.attributes.description.toLowerCase().includes(e.target.value.toLowerCase()))
         setContactList(filtered)
+        setSearchValue(e.target.value)
     }
 
 
     return(
         <div className="w-full">
-            <div className="bg-red-500">
-                <FilterContacts searchWord={searchWord} />
-            </div>
+            <Submenu>
+                <FilterContacts searchValue={searchValue} onChangeSearch={onChangeSearch}  />
+            </Submenu>
+
             <div className="grid grid-cols-4 grid-flow-row p-4 gap-4">
                 {
                     groups?.map( item => 

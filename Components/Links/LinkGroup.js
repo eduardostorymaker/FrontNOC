@@ -3,9 +3,7 @@ import LinkItem from "./LinkItem"
 
 
 const filterListByName = (name, list) => {
-    console.log("list")
-    console.log(list.data[0].attributes.group.data.attributes.name)
-    const dataFiltered = list.data.filter(item=>item.attributes.group.data.attributes.name === name)
+    const dataFiltered = list.filter(item=>item.attributes.group.data.attributes.name === name)
     return dataFiltered || []
 }
 
