@@ -1,5 +1,5 @@
 "use client"
-import SearchField from "../Layout/SearchField";
+import SearchField from "../../Layout/SearchField";
 
 export default function FilterByWord({ searchValue,onChangeSearch }) {
 

@@ -1,4 +1,4 @@
-import SearchField from "../Layout/SearchField";
+import SearchField from "../../Layout/SearchField";
 
 export default function FilterContacts ({ searchValue, onChangeSearch }) {
     

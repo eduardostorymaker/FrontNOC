@@ -9,7 +9,7 @@ export default function MenuSubmenu ({ changeSelection, dataFilter}) {
         {
             dataFilter.map(item => 
                 <button 
-                    key={item.ids}
+                    key={item.id}
                     className={item.selected?selectedStyles:unSelectedStyles}
                     onClick={()=>changeSelection(item.id)}
                 >

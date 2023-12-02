@@ -3,60 +3,43 @@ import { useState } from "react"
 
 import SideMenu from "../Menu/SideMenu"
 
-const firstMenu = [
-    {
-        id: 1,
-        tag: "Interés",
-        show: true,
-        submenu: [
-            { 
-                id:1,
-                tag: "Enlaces",
-                link: "/links",
-            },
-            { 
-                id:2,
-                tag: "Contactos",
-                link: "/contacts",
-            }
-        ]
-    },
-    {
-        id: 2,
-        tag: "PACO",
-        show: true,
-        submenu: [
-            
-        ]
-    },
-    {
-        id: 3,
-        tag: "NSS",
-        show: true,
-        submenu: [
-            { 
-                id:1,
-                tag: "Raiting Group",
-                link: "/nss/raitings",
-            },
-            { 
-                id:2,
-                tag: "Routing Numbers",
-                link: "/nss/routings",
-            }
-        ]
-    },
-]
+import firstMenu from "../../data/navigation/firstMenu.json"
 
 export default function SideBar() {
 
     const [menu,setMenu] = useState(firstMenu)
+    console.log(menu)
+    console.log("menu")
+
+    const toggleShowMenu = (id) => {
+        console.log("toggle")
+        const setToggle = menu.map( item => {
+            if (item.id === id) {
+                if (item.show) {
+                    return({
+                        ...item,
+                        show:false
+                    })
+                } else {
+                    return({
+                        ...item,
+                        show:true
+                    })
+                }
+            } else {
+                return({
+                    ...item
+                })
+            }
+        })
+        setMenu(setToggle)
+    }
 
      return(
-        <section className="border-2 border-red-200 py-2 h-full text-md font-bold">
+        <section className="border-2 border-red-200 h-full text-md">
             <div>
                 <ul>
-                    <SideMenu menu={menu} />
+                    <SideMenu menu={menu} toggleShowMenu={toggleShowMenu} />
                 </ul>
             </div>
         </section>

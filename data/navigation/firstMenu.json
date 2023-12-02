@@ -1,0 +1,49 @@
+[
+    {
+        "id": 1,
+        "tag": "Interés",
+        "show": true,
+        "submenu": [
+            { 
+                "id":1,
+                "tag": "Enlaces",
+                "link": "/general/links"
+            },
+            { 
+                "id":2,
+                "tag": "Contactos",
+                "link": "/general/contacts"
+            },
+            { 
+                "id":3,
+                "tag": "Horarios",
+                "link": "/general/schedules/group/RAL"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "tag": "CORE IP/MPLS",
+        "show": true,
+        "submenu": [
+            
+        ]
+    },
+    {
+        "id": 3,
+        "tag": "CORE CS/PS",
+        "show": true,
+        "submenu": [
+            { 
+                "id":1,
+                "tag": "Raiting Group",
+                "link": "/nss/raitings"
+            },
+            { 
+                "id":2,
+                "tag": "Routing Numbers",
+                "link": "/nss/routings"
+            }
+        ]
+    }
+]

@@ -1,4 +1,4 @@
-import MenuSubmenu from "../Layout/MenuSubmenu";
+import MenuSubmenu from "../../Menu/MenuSubmenu";
 
 export default function FilterByMenu({ selectFilter, changeSelection, dataFilter }) {
 

@@ -1,4 +1,4 @@
-import ContactsPageTemplate from "../../Components/Contacts/ContactsPageTemplate";
+import ContactsPageTemplate from "../../../Components/General/Contacts/ContactsPageTemplate";
 
 const getDataList = async () => {
     const res = await fetch("http://172.19.128.128:1337/api/datacontacts?populate=*&sort[0]=type.type:asc", {cache: 'no-store'})

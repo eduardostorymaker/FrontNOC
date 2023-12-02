@@ -1,0 +1,39 @@
+[
+    {
+        "id": "RAL",
+        "title":"RAL",
+        "priority": 100,
+        "selected": true
+    },
+    {
+        "id": "Energia",
+        "title":"Energía",
+        "priority": 100,
+        "selected": false
+    },
+    {
+        "id": "PEXTLima",
+        "title":"PEXT Lima",
+        "priority": 100,
+        "selected": false
+    },
+    {
+        "id": "PEXTNorte",
+        "title":"PEXT Norte",
+        "priority": 100,
+        "selected": false
+    },
+    {
+        "id": "RAN",
+        "title":"RAN",
+        "priority": 100,
+        "selected": false
+    },
+    {
+        "id": "RAS",
+        "title":"RAS",
+        "priority": 100,
+        "selected": false
+    }
+
+]

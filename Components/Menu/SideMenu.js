@@ -13,7 +13,7 @@ const extractMenu = (menuList) => {
     return menu
 }
 
-export default function SideMenu({ menu }) {
+export default function SideMenu({ menu,toggleShowMenu }) {
 
     const menuList = extractMenu(menu)
 
@@ -21,7 +21,7 @@ export default function SideMenu({ menu }) {
         <>
         {
             menuList.map(item=> 
-                <ItemSideMenu key={item.id} tag={item.tag} show={item.show} allMenu={menu} />
+                <ItemSideMenu key={item.id} id={item.id} tag={item.tag} show={item.show} allMenu={menu} toggleShowMenu={toggleShowMenu} />
             )
         }
         </>

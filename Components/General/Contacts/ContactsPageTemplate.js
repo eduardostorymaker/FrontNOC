@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 
-import ContactCard from "../../Components/Contacts/ContactCard";
+import ContactCard from "./ContactCard";
 import FilterContacts from "./FilterContacts";
-import { Cottage } from "@mui/icons-material";
-import Submenu from "../Layout/Submenu";
+import Submenu from "../../Menu/Submenu";
 
 const extractGroups = (datalist) => {
     

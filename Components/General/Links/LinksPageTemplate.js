@@ -1,9 +1,9 @@
 'use client'
 
-import FilterGroup from "../../Components/Links/FilterGroup"
-import LinkGroup from "../../Components/Links/LinkGroup"
+import FilterGroup from "./FilterGroup"
+import LinkGroup from "./LinkGroup"
 import { useState } from "react"
-import Submenu from "../Layout/Submenu"
+import Submenu from "../../Menu/Submenu"
 
 const filterAll = [
     {
@@ -14,14 +14,14 @@ const filterAll = [
     },
     {
         id: "PACO",
-        title: "PACO",
-        word:"PACO",
+        title: "CORE IP/MPLS",
+        word:"IP/MPLS",
         selected: false
     },
     {
         id: "NSS",
-        title: "NSS",
-        word:"NSS",
+        title: "CORE CS/PS",
+        word:"CS/PS",
         selected: false
     }
 ]
@@ -35,14 +35,14 @@ const filterPACO = [
     },
     {
         id: "PACO",
-        title: "PACO",
-        word:"PACO",
+        title: "CORE IP/MPLS",
+        word:"IP/MPLS",
         selected: true
     },
     {
         id: "NSS",
-        title: "NSS",
-        word:"NSS",
+        title: "CORE CS/PS",
+        word:"CS/PS",
         selected: false
     }
 ]
@@ -56,14 +56,14 @@ const filterNSS = [
     },
     {
         id: "PACO",
-        title: "PACO",
-        word:"PACO",
+        title: "CORE IP/MPLS",
+        word:"IP/MPLS",
         selected: false
     },
     {
         id: "NSS",
-        title: "NSS",
-        word:"NSS",
+        title: "CORE CS/PS",
+        word:"CS/PS",
         selected: true
     }
 ]
@@ -113,10 +113,10 @@ const LinksPageTemplate = ({ getGroup, getLinks }) => {
     const changeSelection = (id) => {
         if (id === "NSS") {
             setDataFilter(filterNSS)
-            setDataLinks(filterGroupByWord(getLinks.data,"NSS"))
+            setDataLinks(filterGroupByWord(getLinks.data,"CS/PS"))
         } else if (id === "PACO") {
             setDataFilter(filterPACO)
-            setDataLinks(filterGroupByWord(getLinks.data,"PACO"))
+            setDataLinks(filterGroupByWord(getLinks.data,"IP/MPLS"))
         } else {
             setDataFilter(filterAll)
             setDataLinks(filterGroupByWord(getLinks.data,""))
@@ -125,7 +125,6 @@ const LinksPageTemplate = ({ getGroup, getLinks }) => {
     }
 
     const onChangeSearch = (e) => {
-        console.log(e.target.value)
         setSearchValue(e.target.value)
         setDataLinks(filterAllBySearch(getLinks.data,e.target.value))
         setDataFilter(filterAll)
