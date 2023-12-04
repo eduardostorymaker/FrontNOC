@@ -1,37 +1,50 @@
 [
     {
-        "id": "RAL",
+        "id": "ral",
         "title":"RAL",
         "priority": 100,
         "selected": true
     },
     {
-        "id": "Energia",
-        "title":"Energía",
-        "priority": 100,
-        "selected": false
-    },
-    {
-        "id": "PEXTLima",
-        "title":"PEXT Lima",
-        "priority": 100,
-        "selected": false
-    },
-    {
-        "id": "PEXTNorte",
-        "title":"PEXT Norte",
-        "priority": 100,
-        "selected": false
-    },
-    {
-        "id": "RAN",
+        "id": "ran",
         "title":"RAN",
         "priority": 100,
         "selected": false
     },
     {
-        "id": "RAS",
+        "id": "ras",
         "title":"RAS",
+        "priority": 100,
+        "selected": false
+    },
+    {
+        "id": "energia",
+        "title":"Energía",
+        "priority": 100,
+        "selected": false
+    },
+    {
+        "id": "pextlima",
+        "title":"PEXT Lima",
+        "priority": 100,
+        "selected": false
+    },
+    {
+        "id": "pextnorte",
+        "title":"PEXT Norte",
+        "priority": 100,
+        "selected": false
+    },
+    
+    {
+        "id": "ipmpls",
+        "title":"NOC IP/MPLS",
+        "priority": 100,
+        "selected": false
+    },
+    {
+        "id": "csps",
+        "title":"NOC CS/PS",
         "priority": 100,
         "selected": false
     }
