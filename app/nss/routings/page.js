@@ -26,16 +26,27 @@ const routingNumbers = [
 export default function routings() {
 
     return(
-        <div className="p-4">
-            {
-                routingNumbers.map(item =>
-                    <p>
-                        {
-                            item
-                        }
-                    </p>
-                )
-            }
+        <div className="w-full">
+            <div className="flex flex-col items-center p-4 ">
+                <h2 className="text-xl font-bold text-red-500">
+                    Routing Number
+                </h2>
+                <p className="text-gray-400">
+                    Identificadores de llamadas a operadores
+                </p>
+            </div>
+            <div className="p-4 text-gray-700">
+                {
+                    routingNumbers.map(item=>
+                        <p>
+                            {
+                                item
+                            }
+                        </p>    
+                    )
+                }
+
+            </div>
         </div>
     )
 }

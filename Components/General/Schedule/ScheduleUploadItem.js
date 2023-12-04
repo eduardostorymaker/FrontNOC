@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation"
 const loadToClient = (e, setImage, setCreateObjectURL, setFileSelected,setFailedMessage,setTypeOfFile) => {
 
     if(e.target.files[0] && e.target.files) {
+        console.log(e.target.files[0])
         if(e.target.files[0].type.includes("image/png") || e.target.files[0].type.includes("image/jpeg"))
         {
             setImage(e.target.files[0])
@@ -11,7 +12,7 @@ const loadToClient = (e, setImage, setCreateObjectURL, setFileSelected,setFailed
             setFileSelected(true)
             setFailedMessage(null)
             setTypeOfFile("img")
-        } else if (e.target.files[0].type.includes("sheet") || e.target.files[0].type.includes("csv") || e.target.files[0].type.includes("pdf") ) {
+        } else if (e.target.files[0].type.includes("sheet") || e.target.files[0].type.includes("csv") || e.target.files[0].type.includes("excel") || e.target.files[0].type.includes("pdf") ) {
             setImage(e.target.files[0])
             setCreateObjectURL(URL.createObjectURL(e.target.files[0]))
             setFileSelected(true)

@@ -39,17 +39,27 @@ const raitingGroup = [
 export default function () {
 
     return (
-        <div className="p-4">
-            {
-                raitingGroup.map(item=>
-                    <p>
-                        {
-                            item
-                        }
-                    </p>    
-                )
-            }
+        <div className="w-full">
+            <div className="flex flex-col items-center p-4 ">
+                <h2 className="text-xl font-bold text-red-500">
+                    Raiting Group
+                </h2>
+                <p className="text-gray-400">
+                    Identificador del tipo de servicio en la navegación
+                </p>
+            </div>
+            <div className="p-4 text-gray-700">
+                {
+                    raitingGroup.map(item=>
+                        <p>
+                            {
+                                item
+                            }
+                        </p>    
+                    )
+                }
 
+            </div>
         </div>
     )
 }
