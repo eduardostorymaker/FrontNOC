@@ -26,6 +26,11 @@
         "tag": "CORE IP/MPLS",
         "show": true,
         "submenu": [
+            { 
+                "id":1,
+                "tag": "Plantillas Proveedores",
+                "link": "/ipmpls/providercontact"
+            }
             
         ]
     },
@@ -37,12 +42,17 @@
             { 
                 "id":1,
                 "tag": "Raiting Group",
-                "link": "/nss/raitings"
+                "link": "/csps/raitings"
             },
             { 
                 "id":2,
                 "tag": "Routing Numbers",
-                "link": "/nss/routings"
+                "link": "/csps/routings"
+            },
+            { 
+                "id":3,
+                "tag": "Plantillas Roaming",
+                "link": "/csps/roamingcontact"
             }
         ]
     }
