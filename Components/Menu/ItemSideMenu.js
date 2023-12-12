@@ -5,7 +5,7 @@ const filterMenuByTag = (allMenu, tag) => {
     return filteredMenu[0].submenu
 }
 
-export default function ItemSideMenu({ id, tag, show, allMenu, toggleShowMenu }) {
+export default function ItemSideMenu({ id, tag, show, allMenu, toggleShowMenu, onSelect }) {
 
     const filteredList = filterMenuByTag(allMenu, tag)
 
@@ -39,7 +39,7 @@ export default function ItemSideMenu({ id, tag, show, allMenu, toggleShowMenu })
             <div className={show?displayedStyles:nonDisplayedStyles}>
                 {
                     filteredList.map(item => 
-                            <ButtonSideMenu link={item.link} tag={item.tag} />
+                            <ButtonSideMenu link={item.link} tag={item.tag} selected={item.selected} onSelect={onSelect} menuId={id} submenuId={item.id} />
                     )
                 }
             </div>

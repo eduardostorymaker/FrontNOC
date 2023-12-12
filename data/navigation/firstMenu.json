@@ -7,17 +7,21 @@
             { 
                 "id":1,
                 "tag": "Enlaces",
-                "link": "/general/links"
+                "link": "/general/links",
+                "selected": false
             },
             { 
                 "id":2,
                 "tag": "Contactos",
-                "link": "/general/contacts"
+                "link": "/general/contacts",
+                "selected": false
+                
             },
             { 
                 "id":3,
                 "tag": "Horarios",
-                "link": "/general/schedules/group/ral"
+                "link": "/general/schedules/group/ral",
+                "selected": false
             }
         ]
     },
@@ -29,7 +33,8 @@
             { 
                 "id":1,
                 "tag": "Plantillas Proveedores",
-                "link": "/ipmpls/providercontact"
+                "link": "/ipmpls/providercontact",
+                "selected": false
             }
             
         ]
@@ -42,17 +47,20 @@
             { 
                 "id":1,
                 "tag": "Raiting Group",
-                "link": "/csps/raitings"
+                "link": "/csps/raitings",
+                "selected": false
             },
             { 
                 "id":2,
                 "tag": "Routing Numbers",
-                "link": "/csps/routings"
+                "link": "/csps/routings",
+                "selected": false
             },
             { 
                 "id":3,
                 "tag": "Plantillas Roaming",
-                "link": "/csps/roamingcontact"
+                "link": "/csps/roamingcontact",
+                "selected": false
             }
         ]
     }
