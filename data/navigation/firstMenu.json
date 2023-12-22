@@ -22,6 +22,12 @@
                 "tag": "Horarios",
                 "link": "/general/schedules/group/ral",
                 "selected": false
+            },
+            { 
+                "id":4,
+                "tag": "Mapas",
+                "link": "/map",
+                "selected": false
             }
         ]
     },
@@ -32,6 +38,12 @@
         "submenu": [
             { 
                 "id":1,
+                "tag": "Inventario Equipos",
+                "link": "/ipmpls/ipmplsinventory",
+                "selected": false
+            },
+            { 
+                "id":2,
                 "tag": "Plantillas Proveedores",
                 "link": "/ipmpls/providercontact",
                 "selected": false
