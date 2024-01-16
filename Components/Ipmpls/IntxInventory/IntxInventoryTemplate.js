@@ -113,8 +113,8 @@ export default function IntxInventoryTemplate ({ dataIntx }) {
         })
         
 
-        setIntxList(modifiedList)
-        setIntxShow()
+        //setIntxList(modifiedList)
+        //setIntxShow(modifiedList)
         
     }
 

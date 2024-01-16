@@ -7,7 +7,7 @@ export default function IntxInventoryGroup ({ dataIntx,onChangeSelect }) {
             <table>
                 <tbody>
                     {
-                        dataIntx.map( item => 
+                        dataIntx?.map( item => 
                             <IntxInventoryItem 
                                 key={item.id}
                                 gateway={item.attributes?.gatewaydevice?.data?.attributes?.name} 
