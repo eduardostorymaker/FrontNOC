@@ -39,7 +39,7 @@ export default function ItemSideMenu({ id, tag, show, allMenu, toggleShowMenu, o
             <div className={show?displayedStyles:nonDisplayedStyles}>
                 {
                     filteredList.map(item => 
-                            <ButtonSideMenu link={item.link} tag={item.tag} selected={item.selected} onSelect={onSelect} menuId={id} submenuId={item.id} />
+                            <ButtonSideMenu key={item.id} link={item.link} tag={item.tag} selected={item.selected} onSelect={onSelect} menuId={id} submenuId={item.id} />
                     )
                 }
             </div>

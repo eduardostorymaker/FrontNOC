@@ -25,7 +25,7 @@
             },
             { 
                 "id":4,
-                "tag": "Mapas",
+                "tag": "Mapa",
                 "link": "/map",
                 "selected": false
             }
@@ -38,12 +38,24 @@
         "submenu": [
             { 
                 "id":1,
+                "tag": "Comandos Equipos",
+                "link": "/ipmpls/ipmplscommands",
+                "selected": false
+            },
+            { 
+                "id":2,
                 "tag": "Inventario Equipos",
                 "link": "/ipmpls/ipmplsinventory",
                 "selected": false
             },
             { 
-                "id":2,
+                "id":3,
+                "tag": "Inventario Interconexiones",
+                "link": "/ipmpls/intxinventory",
+                "selected": false
+            },
+            { 
+                "id":4,
                 "tag": "Plantillas Proveedores",
                 "link": "/ipmpls/providercontact",
                 "selected": false
