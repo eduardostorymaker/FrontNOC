@@ -9,7 +9,7 @@ export default function ipmplscommands () {
             id: 1,
             description:"Cuánto tiempo esta encendido el equipo",
             zte: [
-                "show ver"
+                "show version"
             ],
             huawei:[
                 "display version"
@@ -18,7 +18,7 @@ export default function ipmplscommands () {
                 "show uptime"
             ],
             cisco:[
-
+                "show version"
             ]
         },
         {
@@ -35,7 +35,7 @@ export default function ipmplscommands () {
                 "show card detail | match Temperature"
             ],
             cisco:[
-
+                "show environment"
             ]
         },
         {
@@ -45,13 +45,13 @@ export default function ipmplscommands () {
                 
             ],
             huawei:[
-                
+                "display interface description"
             ],
             nokia:[
                 "show port description"
             ],
             cisco:[
-
+                "show interface description"
             ]
         },
         {
@@ -67,7 +67,7 @@ export default function ipmplscommands () {
                 "show port 1/1/8"
             ],
             cisco:[
-
+                "show inter GigabitEthernet 6/0/7"
             ]
         },
         {
