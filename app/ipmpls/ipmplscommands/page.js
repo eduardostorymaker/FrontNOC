@@ -42,7 +42,7 @@ export default function ipmplscommands () {
             id: 3,
             description:"Resumen de puertos",
             zte: [
-                
+                "show interface description"
             ],
             huawei:[
                 "display interface description"
@@ -78,14 +78,85 @@ export default function ipmplscommands () {
                 "show opticalinfo brief"
             ],
             huawei:[
-                "display interface phy-option GigabitEthernet 6/0/7",
-                "display interface phy-option"
+                "display interface phy-option",
+                "display interface phy-option GigabitEthernet 6/0/7"
+                
             ],
             nokia:[
                 "show port 1/1/8 optical"
             ],
             cisco:[
 
+            ]
+        },
+        {
+            id: 6,
+            description:"Ver equipos vecinos",
+            zte: [
+                "show lldp neighbor  brief"
+            ],
+            huawei:[
+                "display lldp neighbor brief"
+            ],
+            nokia:[
+                "show router ldp interface"
+            ],
+            cisco:[
+                "show cdp neighbor"
+            ]
+        },
+        {
+            id: 7,
+            description:"Ver protocolo OSPF",
+            zte: [
+                
+            ],
+            huawei:[
+                "display ospf peer"
+            ],
+            nokia:[
+                "show router ospf neighbor detail"
+            ],
+            cisco:[
+                
+            ]
+        },
+        {
+            id: 7,
+            description:"Agregaciones o Trunks",
+            zte: [
+                "show  intf-statistics  utilization"
+            ],
+            huawei:[
+                "display interface Eth-Trunk 61"
+            ],
+            nokia:[
+                "show lag 1 detail"
+            ],
+            cisco:[
+                
+            ]
+        },
+        {
+            id: 8,
+            description:"Ver servicios móviles configurados",
+            zte: [
+                
+            ],
+            huawei:[
+                "display ip vpn-instance 700 interface",
+                "10095 (2G)",
+                "700 (3G)",
+                "10090 10091 10092 10093 (4G/5G)"
+            ],
+            nokia:[
+                "show router 700 interface",
+                "10095 (2G)",
+                "700 (3G)",
+                "10090 10091 10092 10093 (4G/5G)"
+            ],
+            cisco:[
+                
             ]
         }
     ]
