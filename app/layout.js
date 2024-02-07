@@ -6,6 +6,9 @@ import './global.css'
 export const metadata = {
   title: 'NOC Red Movil',
   description: 'Pagina del NOC desarrollado por Eduardo Espinoza',
+  icons: {
+    icon:['/favicon.ico?v=4']
+  }
 }
 
 export default function RootLayout({ children }) {
