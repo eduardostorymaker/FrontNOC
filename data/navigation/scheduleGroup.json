@@ -18,6 +18,12 @@
         "selected": false
     },
     {
+        "id": "rac",
+        "title":"RAC",
+        "priority": 100,
+        "selected": false
+    },
+    {
         "id": "energia",
         "title":"Energía",
         "priority": 100,
