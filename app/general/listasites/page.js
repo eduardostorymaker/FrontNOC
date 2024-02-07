@@ -9,9 +9,6 @@ const getSitesList = async () => {
 export default async function listasites() {
 
     const dataSitesList = await getSitesList()
-    console.log("Lista de sites")
-    console.log(dataSitesList)
-
     return(
         <div>
             <ListaSitesTemplate dataSitesList={dataSitesList} />

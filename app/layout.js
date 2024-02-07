@@ -7,7 +7,7 @@ export const metadata = {
   title: 'NOC Red Movil',
   description: 'Pagina del NOC desarrollado por Eduardo Espinoza',
   icons: {
-    icon:['/favicon.ico?v=4']
+    icon:['/favicon.png?v=4']
   }
 }
 
