@@ -50,9 +50,12 @@ export default function ListaSitesGroup({ dataFiltered }) {
     const router = useRouter()
 
     const onClickEvent = (e) => {
-        console.log("Se dio click")
-        console.log(e.row.Latitud)
-        router.push(`/general/sitesmap?Latitud=${e.row.Latitud}&Longitud=${e.row.Longitud}&Codigo=${e.row.Codigo}&Nombre=${e.row.Nombre}`)
+        //console.log("Se dio click")
+        //console.log(e)
+        if (e.field === "Mapa" ) {
+            //console.log("mapa")
+            router.push(`/general/sitesmap?Latitud=${e.row.Latitud}&Longitud=${e.row.Longitud}&Codigo=${e.row.Codigo}&Nombre=${e.row.Nombre}`)
+        }
     }
 
     return(

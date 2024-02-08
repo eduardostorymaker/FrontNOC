@@ -26,7 +26,7 @@ export default function SitesMapLeaflet() {
     //const position2 =  [dataToShow[2]?.attributes.latitude||-12.086623479843762,dataToShow[2]?.attributes.longitude||-77.00395738936616]
 
     const params = useSearchParams()
-    console.log(params.get('Latitud'))
+    //console.log(params.get('Latitud'))
 
     const position1 =  [params.get('Latitud'),params.get('Longitud')]
 
