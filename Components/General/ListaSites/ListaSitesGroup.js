@@ -1,10 +1,12 @@
 "use client"
 
 import { DataGrid } from '@mui/x-data-grid';
+import { useRouter } from 'next/navigation';
 
 export default function ListaSitesGroup({ dataFiltered }) {
 
     const columns = [
+        { field: 'Mapa', headerName: 'Mapa', width: 80 },
         { field: 'Codigo', headerName: 'Código', width: 140 },
         { field: 'Nombre', headerName: 'Nombre', width: 300 },
         { field: 'Estado', headerName: 'Estado', width: 70 },
@@ -28,6 +30,7 @@ export default function ListaSitesGroup({ dataFiltered }) {
         return(
             { 
                 id: item.id,
+                Mapa: "ir a mapa",
                 Codigo: item.attributes.papcode,
                 Nombre: item.attributes.papname,
                 Estado: item.attributes.papstate,
@@ -44,9 +47,18 @@ export default function ListaSitesGroup({ dataFiltered }) {
         )
     })
 
+    const router = useRouter()
+
+    const onClickEvent = (e) => {
+        console.log("Se dio click")
+        console.log(e.row.Latitud)
+        router.push(`/general/sitesmap?Latitud=${e.row.Latitud}&Longitud=${e.row.Longitud}&Codigo=${e.row.Codigo}&Nombre=${e.row.Nombre}`)
+    }
+
     return(
         <div>
             <DataGrid
+                onCellClick={onClickEvent}
                 rows={rows}
                 columns={columns}
                 initialState={{

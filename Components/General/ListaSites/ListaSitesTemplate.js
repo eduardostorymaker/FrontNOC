@@ -8,6 +8,10 @@ import Submenu from "../../Menu/Submenu";
 
 export default function ListaSitesTemplate ({ dataSitesList })  {
 
+    const myData = {
+        uno: "uno"
+    }
+
     const [dataFiltered, setDataFiltered] = useState(dataSitesList)
     const [searchValue, setSearchValue] = useState("")
 

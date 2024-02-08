@@ -21,6 +21,13 @@ export default function MapSection ({dataSites}) {
     const dataFiltered = siteList.filter(item => item.attributes.department.includes("JUNIN"))
     //const dataFiltered = siteList.filter(item => item.id < 300000)
 
+    
+    console.log("mapas")
+    
+    if (typeof window !== 'undefined') {
+        console.log(localStorage.getItem("name"))
+    }
+
     return(
         <>
             {

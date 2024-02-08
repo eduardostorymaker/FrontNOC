@@ -2,7 +2,7 @@ import IpmplsInventoryTemplate from "../../../Components/Ipmpls/IpmplsInventory/
 
 const getDataIpmplsDevice = async () => {
 
-    const response = await fetch("http://172.19.128.128:1337/api/ipmplsdevices?populate=*",{cache: 'no-store'})
+    const response = await fetch("http://172.19.128.128:1337/api/ipmplsdevices?populate=*",{cache: 'no-cache'})
     const data = await response.json()
     return data.data
 }

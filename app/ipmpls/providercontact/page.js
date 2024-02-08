@@ -1,7 +1,7 @@
 import ProviderContactTemplate from "../../../Components/Ipmpls/ProviderContacts/ProviderContactTemplate";
 
 const getProviderData = async () => {
-    const response = await fetch("http://172.19.128.128:1337/api/providercontacts?populate=*&sort[0]=providertype.name",{cache: "no-store"})
+    const response = await fetch("http://172.19.128.128:1337/api/providercontacts?populate=*&sort[0]=providertype.name",{cache: "no-cache"})
     const data = await response.json()
     //console.log("proveedores")
     //console.log(data.data)
