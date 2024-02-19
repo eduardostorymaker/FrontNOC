@@ -1,30 +1,46 @@
 'use client'
 
+import { useState } from "react";
 import "leaflet/dist/leaflet.css";
 
 //import markerIconPng from " ../../node_modules/leaflet/dist/images/marker-icon.png"
 
 import L from 'leaflet'
-import { MapContainer, TileLayer, Marker, Popup, CircleMarker  } from "react-leaflet"
+import { MapContainer, TileLayer, Marker, Popup, CircleMarker, Tooltip } from "react-leaflet"
 
-import pinIcon from "../../assets/icons/marker-icon.png"
+import ChangeView from "./ChangeView";
+
+import pinIcon from "../../assets/icons/technology.png"
 import shadowPinIcon from "../../assets/icons/marker-shadow.png"
+import centerIcon from "../../assets/icons/placeholder.png"
 
 const myIcon = L.icon({
     iconUrl: pinIcon.src,
-    iconSize: [24, 32],
+    iconSize: [35, 30],
     iconAnchor: null,
-    popupAnchor: [-3, -76],
+    popupAnchor: [-3, -10],
     shadowUrl: shadowPinIcon.src,
-    shadowSize: [24, 32],
+    shadowSize: [0, 0],
     shadowAnchor: null,
+    className: "leaflet-venue-icon"
+})
+
+const myCenterIcon = L.icon({
+    iconUrl: centerIcon.src,
+    iconSize: [40, 35],
+    iconAnchor: null,
+    popupAnchor: [-3, -10],
+    shadowUrl: pinIcon.src,
+    shadowSize: [35, 30],
+    shadowAnchor: [5, 4],
     className: "leaflet-venue-icon"
 })
 
 
 const redOptions = { color: 'red' }
 
-export default function LeafletMap({ dataToShow }) {
+export default function LeafletMap({ dataToShow,siteSelected,showToolTip }) {
+
     
     const itemsToPrint = dataToShow.map( item => {
         return({
@@ -38,34 +54,49 @@ export default function LeafletMap({ dataToShow }) {
         })
     })
 
-    const position1 =  [-12.086623479843762,-77.00395738936616]
-    const position2 =  [dataToShow[2]?.attributes.latitude||-12.086623479843762,dataToShow[2]?.attributes.longitude||-77.00395738936616]
+
+    const positionSelected = [siteSelected.attributes.latitude, siteSelected.attributes.longitude]
+   
     return(
         <div className="h-full w-full">
-       
-            <MapContainer className="h-full w-full" center={position1} zoom={7} scrollWheelZoom={true}>
-            <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
 
-            {
-                itemsToPrint.map(item => 
-                    <Marker  position={item.position} icon={myIcon} title={`${item.code} ${item.name}`} >
-                        <Popup>
-                        {item.code} {item.name}
-                        </Popup>
-                    </Marker >
-                    
-                )
-            }
+       
+            <MapContainer className="h-full w-full" center={positionSelected} zoom={20} scrollWheelZoom={true}>
+                <ChangeView center={positionSelected} />
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+
+                {
+                    itemsToPrint.map(item => {
+                        let iconToShow = myIcon
+                        if (item.position[0] === positionSelected[0] && item.position[1] === positionSelected[1]) {
+                            iconToShow = myCenterIcon
+                        } 
+                        return(
+                            <Marker  position={item.position} icon={iconToShow} title={`${item.code} ${item.name}`} >
+                                <Popup>
+                                {item.code} {item.name}
+                                </Popup>
+                                {
+                                    showToolTip
+                                    ?
+                                    <Tooltip direction="right" offset={[10, 0]} opacity={1} permanent>{`${item.code} ${item.name}`}</Tooltip>
+                                    :
+                                    <></>
+                                }
+                                
+                            </Marker >
+                        )
+                      
+                    }
+
+                    )
+                }
             </MapContainer>
         
         </div>
     )
 }
-            // <CircleMarker  center={position2} pathOptions={redOptions} radius={20} className="Hola" >
-            //     <Popup>
-            //     A pretty CSS3 popup. <br /> Easily customizable.
-            //     </Popup>
-            // </CircleMarker >
+ 

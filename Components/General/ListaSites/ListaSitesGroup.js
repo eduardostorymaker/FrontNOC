@@ -5,20 +5,22 @@ import { useRouter } from 'next/navigation';
 
 export default function ListaSitesGroup({ dataFiltered }) {
 
+    const HeaderStyles= `bg-red-500 text-white`
+
     const columns = [
-        { field: 'Mapa', headerName: 'Mapa', width: 80 },
-        { field: 'Codigo', headerName: 'Código', width: 140 },
-        { field: 'Nombre', headerName: 'Nombre', width: 300 },
-        { field: 'Estado', headerName: 'Estado', width: 70 },
-        { field: 'Subregion', headerName: 'Subregion', width: 90 },
-        { field: 'Tecnologias', headerName: 'Tecnologías', width: 90 },
-        { field: 'Longitud', headerName: 'Longitud', width: 150 },
-        { field: 'Latitud', headerName: 'Latitud', width: 150 },
-        { field: 'Departamento', headerName: 'Departamento', width: 200 },
-        { field: 'Provincia', headerName: 'Provincia', width: 200 },
-        { field: 'Distrito', headerName: 'Distrito', width: 200 },
-        { field: 'CentroPoblado', headerName: 'Centro Poblado', width: 200 },
-        { field: 'Direccion', headerName: 'Dirección', width: 400 },
+        { field: 'Mapa', headerName: 'Mapa', width: 80, headerClassName:HeaderStyles },
+        { field: 'Codigo', headerName: 'Código', width: 140, headerClassName:HeaderStyles  },
+        { field: 'Nombre', headerName: 'Nombre', width: 300, headerClassName:HeaderStyles  },
+        { field: 'Estado', headerName: 'Estado', width: 70, headerClassName:HeaderStyles  },
+        { field: 'Subregion', headerName: 'Subregion', width: 90, headerClassName:HeaderStyles  },
+        { field: 'Tecnologias', headerName: 'Tecnologías', width: 90, headerClassName:HeaderStyles  },
+        { field: 'Longitud', headerName: 'Longitud', width: 150, headerClassName:HeaderStyles  },
+        { field: 'Latitud', headerName: 'Latitud', width: 150, headerClassName:HeaderStyles  },
+        { field: 'Departamento', headerName: 'Departamento', width: 200, headerClassName:HeaderStyles  },
+        { field: 'Provincia', headerName: 'Provincia', width: 200, headerClassName:HeaderStyles  },
+        { field: 'Distrito', headerName: 'Distrito', width: 200, headerClassName:HeaderStyles  },
+        { field: 'CentroPoblado', headerName: 'Centro Poblado', width: 200, headerClassName:HeaderStyles  },
+        { field: 'Direccion', headerName: 'Dirección', width: 400, headerClassName:HeaderStyles  },
         
     ];
 
