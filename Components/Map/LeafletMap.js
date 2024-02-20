@@ -44,18 +44,18 @@ export default function LeafletMap({ dataToShow,siteSelected,showToolTip }) {
     
     const itemsToPrint = dataToShow.map( item => {
         return({
-            code: item.attributes.papcode,
-            name: item.attributes.papname,
+            code: item.code,
+            name: item.name,
             position: 
             [
-                item.attributes.latitude,
-                item.attributes.longitude
+                item.latitude,
+                item.longitude
             ]
         })
     })
 
 
-    const positionSelected = [siteSelected.attributes.latitude, siteSelected.attributes.longitude]
+    const positionSelected = [siteSelected.latitude, siteSelected.longitude]
    
     return(
         <div className="h-full w-full">

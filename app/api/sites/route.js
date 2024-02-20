@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import ClientPG from "../lib/ClientPG";
+import ClientPG from "../../lib/ClientPG";
 
 const clientPG = ClientPG()
 

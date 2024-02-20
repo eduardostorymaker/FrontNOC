@@ -41,9 +41,9 @@ export default function MapSectionFilter ({
     ];
 
     const dataFiltered = dataSites.filter(item => 
-        item.attributes.papcode.toLowerCase().includes(textFilter.toLowerCase().trim()) 
+        item.code.toLowerCase().includes(textFilter.toLowerCase().trim()) 
         ||
-        item.attributes.papname.toLowerCase().includes(textFilter.toLowerCase().trim()) 
+        item.name.toLowerCase().includes(textFilter.toLowerCase().trim()) 
     )
 
     const rows = dataFiltered.map( item => {
@@ -51,16 +51,16 @@ export default function MapSectionFilter ({
             { 
                 id: item.id,
                 Seleccionar: "",
-                Codigo: item.attributes.papcode,
-                Nombre: item.attributes.papname,
-                Tecnologias: item.attributes.tecnologies,
-                Longitud: item.attributes.longitude,
-                Latitud: item.attributes.latitude,
-                Departamento: item.attributes.department,
-                Provincia:item.attributes.province,
-                Distrito: item.attributes.district,
-                CentroPoblado: item.attributes.populatedcenter,
-                Direccion: item.attributes.address,
+                Codigo: item.code,
+                Nombre: item.name,
+                Tecnologias: item.tecnologies,
+                Longitud: item.longitude,
+                Latitud: item.latitude,
+                Departamento: item.department,
+                Provincia:item.province,
+                Distrito: item.district,
+                CentroPoblado: item.populatedcenter,
+                Direccion: item.address,
             }
         )
     })

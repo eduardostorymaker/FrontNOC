@@ -17,7 +17,7 @@ export default function MapSection ({dataSites}) {
     const [radioValue, setRadioValue] = useState(1)
     const [showToolTip, setShowToolTip] = useState(false)
     const [textFilter, setTextFilter] = useState("")
-    const [siteSelected, setSiteSelected] = useState(dataSites.find(item => item.attributes.papcode=== "LI1809"))
+    const [siteSelected, setSiteSelected] = useState(dataSites.find(item => item.code=== "LI1809"))
 
     console.log(textFilter)
 
@@ -40,10 +40,10 @@ export default function MapSection ({dataSites}) {
 
 
     const getDistance = (latitude,longitude) => {
-        return Math.pow(Math.pow(latitude - siteSelected.attributes.latitude,2) + Math.pow(longitude-siteSelected.attributes.longitude,2),0.5)*gradeToKm
+        return Math.pow(Math.pow(latitude - siteSelected.latitude,2) + Math.pow(longitude-siteSelected.longitude,2),0.5)*gradeToKm
     }
 
-    const dataFiltered = dataSites.filter(item => getDistance(item.attributes.latitude, item.attributes.longitude) < radioValue)
+    const dataFiltered = dataSites.filter(item => getDistance(item.latitude, item.longitude) < radioValue)
 
 
 
