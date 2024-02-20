@@ -12,7 +12,6 @@ export default async function intxinventory() {
 
     const dataIntx = await getDataIntx()
 
-    console.log(dataIntx)
     return(
         <div className="h-full h-full">
             <IntxInventoryTemplate dataIntx={dataIntx} />
