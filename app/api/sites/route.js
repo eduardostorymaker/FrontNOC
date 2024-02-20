@@ -1,8 +1,9 @@
+import { NextResponse } from "next/server";
 import PoolPG from "../../lib/PoolPG";
 
 const poolPG = PoolPG()
 
-export async function GetSiteList() {
+export async function GET() {
     const client = await poolPG.connect()
     const data = await client.query('SELECT * from "Sites";')
  
@@ -10,6 +11,7 @@ export async function GetSiteList() {
 
     client.release()
 
-    return data.rows
+    return NextResponse.json({
+        data: data.rows
+    })
 }
-
