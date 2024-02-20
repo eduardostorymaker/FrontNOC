@@ -17,7 +17,7 @@ const getDataSites = async () => {
 
 export default async function mymap () {
 
-    const dataSites = await GetSiteList()
+    const dataSites = await getDataSites()
 
     return(
         <MapSection dataSites={dataSites} /> 
