@@ -28,7 +28,7 @@ export default function MapSection ({dataSites}) {
     const gradeToKm = 111.32
     const firstDistanceToShow = 1
 
-    const showedMenuStyles = `flex h-[300px] w-full bg-white bg-opacity-80 absolute top-0  z-[20000]`
+    const showedMenuStyles = `flex w-full bg-white bg-opacity-80 absolute top-0  z-[20000]`
     const hiddenMenuStyles = `hidden`
 
     const showedMapStyles = `h-full w-full`

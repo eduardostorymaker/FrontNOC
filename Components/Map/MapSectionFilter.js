@@ -59,7 +59,7 @@ export default function MapSectionFilter ({
                 Departamento: item.department,
                 Provincia:item.province,
                 Distrito: item.district,
-                CentroPoblado: item.populatedcenter,
+                CentroPoblado: item.ppcc,
                 Direccion: item.address,
             }
         )
@@ -145,7 +145,7 @@ export default function MapSectionFilter ({
                         columns={columns}
                         initialState={{
                             pagination: {
-                                paginationModel: { page: 0, pageSize: 3 },
+                                paginationModel: { page: 0, pageSize: 5 },
                             },
                         }}
                         density="compact"
