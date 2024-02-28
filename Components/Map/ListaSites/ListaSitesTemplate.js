@@ -8,16 +8,16 @@ import Submenu from "../../Menu/Submenu";
 
 export default function ListaSitesTemplate ({ dataSites, onSelect, setCodeSiteSelected })  {
 
-    const myData = {
-        uno: "uno"
-    }
-
     const [dataFiltered, setDataFiltered] = useState(dataSites)
     const [searchValue, setSearchValue] = useState("")
 
     const onChangeSearch = (e) => {
         setSearchValue(e.target.value)
-        setDataFiltered(dataSites.filter(item => item.name.toLowerCase().includes(e.target.value.toLowerCase())))
+        setDataFiltered(dataSites.filter(item => 
+            item.code.toLowerCase().includes(e.target.value.toLowerCase())
+            ||
+            item.name.toLowerCase().includes(e.target.value.toLowerCase())
+        ))
     }
 
     return (
