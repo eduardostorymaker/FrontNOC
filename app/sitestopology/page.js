@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 
-const MapSection = dynamic(() => import("../../Components/Map/MapSection"), {
+const SitesTopologyTemplate = dynamic(() => import("../../Components/Map/SitesTopologyTemplate"), {
     ssr:false
 })
 
@@ -19,6 +19,6 @@ export default async function mymap () {
     const dataSites = await getDataSites()
 
     return(
-        <MapSection dataSites={dataSites} /> 
+        <SitesTopologyTemplate dataSites={dataSites} />
     )
 }

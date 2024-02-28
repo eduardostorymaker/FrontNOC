@@ -26,13 +26,7 @@
             { 
                 "id":4,
                 "tag": "Lista sites",
-                "link": "/general/listasites",
-                "selected": false
-            },
-            { 
-                "id":5,
-                "tag": "Mapa",
-                "link": "/map",
+                "link": "/sitestopology",
                 "selected": false
             }
         ]

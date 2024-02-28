@@ -7,11 +7,11 @@ export default function MapSectionFilter ({
     radioValue,
     setRadioValue,
     dataSites,
-    setSiteSelected,
     showToolTip,
     setShowToolTip,
     textFilter,
-    setTextFilter 
+    setTextFilter,
+    setCodeSiteSelected
 }) {
 
     const headerStyles = `bg-red-500 text-white`
@@ -24,7 +24,7 @@ export default function MapSectionFilter ({
             width: 140,
             headerClassName: headerStyles,
             renderCell: (params) => {
-                return <button className="bg-yellow-500 px-2 text-white hover:bg-yellow-300 transition ease-in-out ">Seleccionar</button>
+                return <button className="w-full bg-yellow-500 px-2 text-white hover:bg-yellow-300 transition ease-in-out ">Seleccionar</button>
             }
         },
         { field: 'Codigo', headerName: 'Código', width: 140, headerClassName:headerStyles },
@@ -76,14 +76,7 @@ export default function MapSectionFilter ({
         //console.log(e.row)
         if (e.field === "Seleccionar" ) {
             //console.log("mapa")
-            setSiteSelected(dataSites.find(item => {
-                
-                if (item.id === e.row.id) {
-                    //console.log(item)
-                    return true
-                }
-            }))
-            
+            setCodeSiteSelected(e.row.id)
         }
     }
 
