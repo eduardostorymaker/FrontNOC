@@ -38,24 +38,30 @@
         "submenu": [
             { 
                 "id":1,
+                "tag": "Seguimiento Pendientes",
+                "link": "/ipmpls/faulttracking",
+                "selected": false
+            },
+            { 
+                "id":2,
                 "tag": "Comandos Equipos",
                 "link": "/ipmpls/ipmplscommands",
                 "selected": false
             },
             { 
-                "id":2,
+                "id":3,
                 "tag": "Inventario Equipos",
                 "link": "/ipmpls/ipmplsinventory",
                 "selected": false
             },
             { 
-                "id":3,
+                "id":4,
                 "tag": "Inventario Interconexiones",
                 "link": "/ipmpls/intxinventory",
                 "selected": false
             },
             { 
-                "id":4,
+                "id":5,
                 "tag": "Plantillas Proveedores",
                 "link": "/ipmpls/providercontact",
                 "selected": false

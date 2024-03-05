@@ -41,7 +41,12 @@
         "priority": 100,
         "selected": false
     },
-    
+    {
+        "id": "pextsur",
+        "title":"PEXT Sur",
+        "priority": 100,
+        "selected": false
+    },
     {
         "id": "ipmpls",
         "title":"NOC IP/MPLS",
