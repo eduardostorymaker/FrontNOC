@@ -1,25 +1,25 @@
 [
     {
         "id": "ral",
-        "title":"RAL",
+        "title":"OyM Lima",
         "priority": 100,
         "selected": true
     },
     {
         "id": "ran",
-        "title":"RAN",
+        "title":"OyM Norte",
         "priority": 100,
         "selected": false
     },
     {
         "id": "ras",
-        "title":"RAS",
+        "title":"OyM Sur",
         "priority": 100,
         "selected": false
     },
     {
         "id": "rac",
-        "title":"RAC",
+        "title":"OyM Centro",
         "priority": 100,
         "selected": false
     },

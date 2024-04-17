@@ -9,14 +9,14 @@ const getDataTracking = async (url) => {
     const res = await fetch(url, {cache: "no-store"})
     const data = await res.json()
 
-    return data.data
+    return data.data[0]
 }
 
 export default async function FaultTrackingDinamic ({ params }) {
 
     //const [dataItem, setDataItem] = useState(undefined)
   
-    const urlToFetch = `http://172.19.128.128:3061/api/faulttracking/${params.id}`
+    const urlToFetch = `http://172.19.128.128:3060/api/faulttracking/${params.id}`
     const dataItem = await getDataTracking(urlToFetch)
     
     // useEffect(()=>{
@@ -31,7 +31,7 @@ export default async function FaultTrackingDinamic ({ params }) {
             {
                 dataItem
                 ?                 
-                <FaultTrackingItemTemplate dataItem={dataItem} />
+                <FaultTrackingItemTemplate dataItem={dataItem} id={params.id} />
                 :
                 <div>No se encontro elemento</div>
 
