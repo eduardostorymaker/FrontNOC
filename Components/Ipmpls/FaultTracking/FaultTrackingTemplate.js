@@ -21,6 +21,12 @@ const firstDataOptions = [
 
 const menuFilterList = [
     {
+        id: "Pendiente",
+        tag: "Pendiente",
+        value: "Pendiente",
+        selected: true
+    },
+    {
         id: "Todo",
         tag: "Todo",
         value: "",
@@ -31,13 +37,8 @@ const menuFilterList = [
         tag: "Finalizado",
         value: "Finalizado",
         selected: false
-    },
-    {
-        id: "Pendiente",
-        tag: "Pendiente",
-        value: "Pendiente",
-        selected: true
     }
+    
 ]
 
 export default function FaultTrackingTemplate ()  {

@@ -5,6 +5,29 @@ export default function FaultTrackingGroup ({ dataFiltered, onSelect, setCodeSit
 
     const HeaderStyles= `bg-red-500 text-white`
 
+    const stringToArrayObject = (string) => {
+        const toArray = string.split('/')
+        const toObject = toArray.map(item => {
+            const atributes = item.split(',')
+            return({
+                id: atributes[0],
+                ticket: atributes[1],
+                group: atributes[2],
+                current: /^true$/i.test(atributes[3])
+            })
+        })
+        console.log("Objeto")
+        console.log(toObject)
+        return toObject
+    } 
+
+    const incidentsAndGroupToString = (string) => {
+        const objArr = stringToArrayObject(string)
+        return objArr.reduce( (a,v) => {
+            return a + `${v.ticket} (${v.group}) `
+        },"")
+    }
+
     const columns = [
         { 
             field: 'Open',
@@ -16,12 +39,12 @@ export default function FaultTrackingGroup ({ dataFiltered, onSelect, setCodeSit
             }
         },
         { field: 'Id', headerName: 'Id', width: 70, headerClassName:HeaderStyles  },
-        { field: 'Estado', headerName: 'Estado', width: 140, headerClassName:HeaderStyles  },
-        { field: 'Incidencia', headerName: 'Incidencia', width: 140, headerClassName:HeaderStyles  },
+        { field: 'Estado', headerName: 'Estado', width: 120, headerClassName:HeaderStyles  },
+        { field: 'Seguimiento', headerName: 'Seguimiento', width: 250, headerClassName:HeaderStyles  },
         { field: 'Titulo', headerName: 'Titulo', width: 600, headerClassName:HeaderStyles  },
         { field: 'Inicio', headerName: 'Inicio', width: 200, headerClassName:HeaderStyles  },
         { field: 'Fin', headerName: 'Fin', width: 200, headerClassName:HeaderStyles  },
-  
+        { field: 'Incidencias', headerName: 'Incidencias', width: 200, headerClassName:HeaderStyles  }
         
     ];
 
@@ -30,17 +53,19 @@ export default function FaultTrackingGroup ({ dataFiltered, onSelect, setCodeSit
     // ];
 
     const rows = dataFiltered.map( item => {
+        const following = item.ticket?stringToArrayObject(item.ticket).find(item => item.current):""
+
         return(
             { 
                 id: item.id,
                 Open: "Abrir",
                 Id: item.id,
                 Estado: item.state,
-                Incidencia: item.ticket,
+                Seguimiento: item.ticket? `${following.ticket} (${following.group})`:"Sin Ticket",
                 Titulo: item.title,
                 Inicio: (new Date(item.starttime)).toLocaleString('es-ES'),
                 Fin: (new Date(item.endtime)).toLocaleString('es-ES'),
-
+                Incidencias: item.ticket?incidentsAndGroupToString(item.ticket):"Sin Ticket",
             }
         )
     })
