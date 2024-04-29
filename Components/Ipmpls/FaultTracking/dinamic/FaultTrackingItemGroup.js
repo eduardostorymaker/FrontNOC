@@ -122,7 +122,7 @@ const updateTicketObjArray = (list,id,ticket,group,current) => {
                     return({
                         ...item,
                         ticket:ticket?ticket:item.ticket,
-                        group:group?group:item.group,
+                        group:group,
                         current:current?current:item.current
                     })
                 } else {
