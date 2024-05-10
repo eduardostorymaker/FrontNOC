@@ -33,11 +33,28 @@ const dataLinesNew = [{
     priority: 1
 }]
 
+const actionToDo = {
+    add: "add",
+    delete: "delete",
+    modified: "modified",
+    none: "none" 
+}
+
+const addDbStateArray = (data) => {
+    return data.map(item => {
+        return {
+            ...item,
+            todo:actionToDo.none
+        }
+    })
+}
+
 export default function escalationedit ({params}) {
 
     const [dataProvider,setDataProvider] = useState(params.id==="new"?dataProviderNew:"")
     const [dataLines,setDataLines] = useState(params.id==="new"?dataLinesNew:"")
     const [stateDb,setStateDb] = useState(statesMessages.none)
+    const dataToShow = dataLines?dataLines.filter(item => item.todo !== actionToDo.delete):""
 
     const router = useRouter()
 
@@ -46,20 +63,15 @@ export default function escalationedit ({params}) {
             const urlProvider = `http://172.19.128.128:3060/api/providercontact/${params.id}` 
             fetch(urlProvider,{cache:'no-cache'})
                 .then( res => res.json())
-                .then( data => setDataProvider(data.data[0]) )
+                .then( data => setDataProvider(data.data[0]))
     
             const urlLines = `http://172.19.128.128:3060/api/providercontactlines/${params.id}` 
             fetch(urlLines,{cache:'no-cache'})
                 .then( res => res.json())
-                .then( data => setDataLines(orderByPriority(data.data)) )    
+                .then( data => setDataLines(orderByPriority(addDbStateArray(data.data))) )    
 
         }
     },[])
-
-    console.log("dataProvider")
-    console.log(dataProvider)
-    console.log("dataLines")
-    console.log(dataLines)
 
     console.log(JSON.stringify({
         dataProvider,
@@ -80,7 +92,8 @@ export default function escalationedit ({params}) {
         if (parseInt(e.target.id) === parseInt(item.id)) {
             return({
                 ...item,
-                line: e.target.value
+                line: e.target.value,
+                todo: item.todo === actionToDo.add ? item.todo : actionToDo.modified
             })
         } else {
             return({
@@ -99,12 +112,14 @@ export default function escalationedit ({params}) {
                 if (item.id === id) {
                     return ({
                         ...item,
-                        priority: item.priority - 1
+                        priority: item.priority - 1,
+                        todo: item.todo === actionToDo.add ? item.todo : actionToDo.modified
                     })
                 } else if (item.id === isThere.id) {
                     return ({
                         ...item,
-                        priority: item.priority + 1
+                        priority: item.priority + 1,
+                        todo: item.todo === actionToDo.add ? item.todo : actionToDo.modified
                     })
                 } else {
                     return ({
@@ -127,12 +142,14 @@ export default function escalationedit ({params}) {
                 if (item.id === id) {
                     return ({
                         ...item,
-                        priority: item.priority + 1
+                        priority: item.priority + 1,
+                        todo: item.todo === actionToDo.add ? item.todo : actionToDo.modified
                     })
                 } else if (item.id === isThere.id) {
                     return ({
                         ...item,
-                        priority: item.priority - 1
+                        priority: item.priority - 1,
+                        todo: item.todo === actionToDo.add ? item.todo : actionToDo.modified
                     })
                 } else {
                     return ({
@@ -184,14 +201,39 @@ export default function escalationedit ({params}) {
             {
                 ...dataLinesNew[0],
                 priority: lastPriority + 1,
-                id: lastPriority + 1
+                id: lastPriority + 1,
+                todo: actionToDo.add
             }
         ])
     }
 
     const deleteLastLine = () => {
-        setDataLines(dataLines.slice(0,-1))
+        console.log()
+        if (dataLines.length > 1) {
+  
+            const {id,name,value,todo} = dataLines[dataLines.length-1]
+            console.log(id,name,value, todo)
+            if (todo === actionToDo.add) {
+                setDataLines(dataLines.slice(0,-1))
+            } else {
+                setDataLines(dataLines.map(item => {
+                    if (parseInt(item.id)===parseInt(id)){
+                        return ({
+                            ...item,
+                            todo: actionToDo.delete
+                        })
+                    } else {
+                        return ({
+                            ...item
+                        })
+                    }
+                }))
+            }
+        }
     }
+
+    console.log(dataLines)
+    console.log(dataProvider)
 
     return(
         <div>
@@ -205,32 +247,7 @@ export default function escalationedit ({params}) {
                     >
                         <div>
                             {
-                                stateDb === statesMessages.none
-                                ?
-                                statesMessages.none
-                                :
-                                (
-                                    stateDb === statesMessages.inProgress
-                                    ?
-                                    statesMessages.inProgress
-                                    :
-                                    (
-                                        stateDb === statesMessages.saved 
-                                        ?
-                                        statesMessages.saved
-                                        :
-                                        (
-                                            stateDb === statesMessages.failed
-                                            ?
-                                            statesMessages.failed
-                                            :
-                                            ""
-                                        )
-                                    )
-                                )
-
-
-
+                                stateDb
                             }
                         </div>
                     </div>
@@ -251,7 +268,7 @@ export default function escalationedit ({params}) {
                             </div>
                             <div className="" >
                                 {   
-                                    dataLines.map(item =>
+                                    dataToShow.map(item =>
                                         <div key={item.id} className="p-2 border-b-[1px] border-gray-300">
                                             <ArrowDownwardIcon onClick={()=>onChangeLinesOrderDown(item.id,item.priority)} className="text-yellow-400" />
                                             <ArrowUpwardIcon onClick={()=>onChangeLinesOrderUp(item.id,item.priority)} className="text-yellow-400" />
