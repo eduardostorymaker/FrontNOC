@@ -1,37 +1,41 @@
 'use client'
+
+import { useRouter } from "next/navigation";
+
 import CardLine from "./CardLine";
+import EditIcon from '@mui/icons-material/Edit';
 
-const filterList = (list, name) => {
-     const filteredList = list.filter(item => item.attributes.workteam.data.attributes.name === name)
-    const orderedList = filteredList.sort((a,b) => (a.attributes.type.data.attributes.name > b.attributes.type.data.attributes.name ? -1 : a.attributes.type.data.attributes.name < b.attributes.type.data.attributes.name ? 1 : 0 ))
-    return filteredList || []
-}
+export default function ContactCard ({ dataCard, canEdit }) {
 
-export default function ContactCard ({ name, description, list }) {
-
-    const filteredList = filterList(list, name)
+    const router = useRouter()
 
     return (
         <div className="flex flex-col rounded-xl overflow-hidden shadow-lg shadow-red-500/50">
             <div className="bg-red-500 p-4 text-white font-bold">
-                <div>
+                <div className="flex">
+                    <div>
+                        {
+                            canEdit
+                            &&
+                            <EditIcon onClick={()=>router.push(`/general/contacts/${dataCard.id}`)} />
+                        }
+                    </div>
                     {
-                        name
+                        dataCard.name
                     }
                 </div>
                 <div className="text-xs text-red-200">
                     {
-                        description
+                        dataCard.description
                     }
                 </div>
             </div>
             <div className="py-4">
                 {
-                    filteredList.map( item => 
-                        <CardLine key={item.id} value={item.attributes.value} type={item.attributes.type.data.attributes.type} />
+                    dataCard.lines.map( item => 
+                        <CardLine key={item.id} tag={item.tag} information={item.information} />
                     )
                 }
- 
             </div>
 
         </div>

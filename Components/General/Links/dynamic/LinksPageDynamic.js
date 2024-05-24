@@ -32,7 +32,7 @@ const linkLineNew = {
 
 const linkGroupNew = {
     groupid: 2,
-    groupname: "gupro 1",
+    groupname: "grupo 1",
     bubleid: 1,
     bubletitle: "Titulo 1",
     lines: [
@@ -62,7 +62,7 @@ const actionToDo = {
     none: "none" 
 }
 
-const adToDo = (data) => {
+const addToDo = (data) => {
     return {
         ...data,
         lines: data.lines.map(item => {
@@ -89,7 +89,7 @@ export default function LinksPageDynamic ({params}) {
             const urlDataLink =  `http://172.19.128.128:3060/api/links/${params.id}`
             fetch(urlDataLink, {cache: 'no-store'})
             .then( res => res.json())
-            .then( data => setDataLinkGroup(adToDo(data.data[0])))
+            .then( data => setDataLinkGroup(addToDo(data.data[0])))
         }
 
         const urlGroup = "http://172.19.128.128:3060/api/links/group"
@@ -206,7 +206,7 @@ export default function LinksPageDynamic ({params}) {
             }
             console.log("Data Guardada!!") 
             setStateDb(statesMessages.saved)
-            setDataLinkGroup(adToDo(dataLinkGroup))
+            setDataLinkGroup(addToDo(dataLinkGroup))
             if (params.id === "new") {
                 router.push("/general/links")
             }
