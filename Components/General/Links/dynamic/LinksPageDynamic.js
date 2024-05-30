@@ -81,7 +81,7 @@ export default function LinksPageDynamic ({params}) {
     const [stateDb,setStateDb] = useState(statesMessages.none)
     const dataToShow = dataLinkGroup ? {
         ...dataLinkGroup,
-        lines: dataLinkGroup.lines.filter( item => item.todo != actionToDo.delete) 
+        lines: orderByPriority(dataLinkGroup.lines.filter( item => item.todo != actionToDo.delete))
     } : ""
 
     useEffect(()=>{
