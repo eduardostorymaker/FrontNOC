@@ -1,9 +1,23 @@
-export default function ProviderContactItem({ provider, subject, to, cc, body, telephone, type }) {
+import EditIcon from '@mui/icons-material/Edit';
+import { useRouter } from 'next/navigation';
 
-    const href = `mailto:${to?to:""}?cc=${cc?cc:""}&subject=${subject?subject:""}&body=${body?body:""}`
+export default function ProviderContactItem({ id, provider, subject, to, cc, body, phone, type, canEdit }) {
+
+    const router = useRouter()
+
+    const href = `mailto:${to?to:""}?cc=${cc?cc:""}&subject=${subject?subject:""}&body=${body?encodeURIComponent(body):""}`
   
     return(
         <div className="flex flex-col p-4 rounded-xl bg-red-500 text-white justify-between">
+            {
+                canEdit
+                ?
+                <div>
+                    <EditIcon className="text-yellow-400" onClick={()=>router.push(`/ipmpls/providercontact/${id}`)} />
+                </div>
+                :
+                ""
+            }
             <div className="flex flex-col">
                 <div>
                     <span className="pr-2 text-red-200">
@@ -26,7 +40,7 @@ export default function ProviderContactItem({ provider, subject, to, cc, body, t
                         Teléfonos: 
                     </span>
                     <span className="font-bold">
-                        {telephone}
+                        {phone}
                     </span>
                 </div>
             </div>

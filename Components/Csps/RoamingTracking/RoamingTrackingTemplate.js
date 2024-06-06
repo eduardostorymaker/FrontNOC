@@ -45,7 +45,7 @@ export default function RoamingTrackingTemplate() {
         { field: 'Inicio', headerName: 'Inicio', width: 150, headerClassName:HeaderStyles  },
         { field: 'Titulo', headerName: 'Titulo', width: 500, headerClassName:HeaderStyles  },
         { field: 'Afectacion', headerName: 'Afectacion', width: 600, headerClassName:HeaderStyles  },
-        { field: 'Reclamos', headerName: 'Reclamos', width: 100, headerClassName:HeaderStyles  },
+        { field: 'Reclamos', headerName: 'Reclamos AR', width: 105, headerClassName:HeaderStyles  },
         { field: 'BackOffice', headerName: 'BackOffice', width: 300, headerClassName:HeaderStyles  },
         { field: 'INOC', headerName: 'INOC', width: 300, headerClassName:HeaderStyles  }
         
