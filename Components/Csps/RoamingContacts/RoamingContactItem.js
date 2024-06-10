@@ -1,10 +1,27 @@
-export default function RoamingContactItem({ country, operator, to, cc, subject, body, telephone }) {
+import { useRouter } from 'next/navigation';
+
+import EditIcon from '@mui/icons-material/Edit';
+
+export default function RoamingContactItem({ id, country, operator, to, cc, subject, body, phone, canEdit }) {
+
+    const router = useRouter()
 
     const href = `mailto:${to?to:""}?cc=${cc?cc:""}&subject=${subject?subject:""}&body=${body?body:""}`
     
     return(
         <div className="flex flex-col p-4 rounded-xl bg-red-500 text-white justify-between">
             <div className="flex flex-col">
+                <div>
+                    <div>
+                        {
+                            canEdit
+                            ?
+                            <EditIcon onClick={()=>router.push(`/csps/roamingcontact/${id}`)} />
+                            :
+                            ""
+                        }
+                    </div>
+                </div>
                 <div>
                     <span className="pr-2 text-red-200">
                         País: 
@@ -26,7 +43,7 @@ export default function RoamingContactItem({ country, operator, to, cc, subject,
                         Teléfonos: 
                     </span>
                     <span className="font-bold">
-                        {telephone}
+                        {phone}
                     </span>
                 </div>
             </div>
