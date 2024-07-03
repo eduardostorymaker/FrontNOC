@@ -15,7 +15,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const linkImage = (file,name)  => {
-    return `http://172.19.128.128:3060/_next/image?url=%2F${file}%2F${name}&w=640&q=75`
+    return `http://172.19.128.128:4444/images/${file}/${name}`
 }
 
 export default function ScheduleTemplateNew ({ group }) {
