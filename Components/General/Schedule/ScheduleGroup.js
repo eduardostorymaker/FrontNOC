@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 import ScheduleItem from "./ScheduleItem"
-import Link from "next/Link"
-
 
 export default function scheduleGroup({ selectedGroup }) {
     const [scheduleList,setScheduleList] = useState([])
