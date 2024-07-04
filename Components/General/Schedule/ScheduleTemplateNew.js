@@ -247,7 +247,19 @@ export default function ScheduleTemplateNew ({ group }) {
                                                     }
                                                 </div>
                                                 <Link target="_blank" href={linkImage(item.folder,item.file)} >
-                                                    <img src={linkImage(item.folder,item.file)} />
+                                                    {
+                                                        console.log("Terminacion")
+                                                    }
+                                                    {
+                                                        console.log(item.file.split(".")[item.file.split(".").length - 1])
+                                                    }
+                                                    {
+                                                        "jpg/jpeg/png/tif".includes(item.file.split(".")[item.file.split(".").length - 1])
+                                                        ?
+                                                        <img src={linkImage(item.folder,item.file)} />
+                                                        :
+                                                        <div>Archivo</div>
+                                                    }
                                                 </Link>
                                             </div>
                                         )
