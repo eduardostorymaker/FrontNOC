@@ -25,6 +25,13 @@
             },
             { 
                 "id":4,
+                "tag": "CRQs Observaciones",
+                "link": "/general/infocrq",
+                "selected": false
+            }
+            ,
+            { 
+                "id":5,
                 "tag": "Lista sites",
                 "link": "/sitestopology",
                 "selected": false
@@ -44,24 +51,30 @@
             },
             { 
                 "id":2,
+                "tag": "Enlaces Internacionales",
+                "link": "/admin/ip/briefinternationallinks",
+                "selected": false
+            },
+            { 
+                "id":3,
                 "tag": "Comandos Equipos",
                 "link": "/ipmpls/ipmplscommands",
                 "selected": false
             },
             { 
-                "id":3,
+                "id":4,
                 "tag": "Inventario Equipos",
                 "link": "/ipmpls/ipmplsinventory",
                 "selected": false
             },
             { 
-                "id":4,
+                "id":5,
                 "tag": "Inventario Interconexiones",
                 "link": "/ipmpls/intxinventory",
                 "selected": false
             },
             { 
-                "id":5,
+                "id":6,
                 "tag": "Plantillas Proveedores",
                 "link": "/ipmpls/providercontact",
                 "selected": false
