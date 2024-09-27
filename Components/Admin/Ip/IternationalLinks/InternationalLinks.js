@@ -181,7 +181,21 @@ export default function InternationalLinks () {
                                         <div >
                                             <div className="grid grid-cols-[120px_70px_200px_200px_1fr] gap-2 border-[1px] border-t-0 border-red-200 ">
                                                 <div className="w-full flex items-center">
-                                                    <select defaultValue={item.category}>
+                                                    <select 
+                                                        defaultValue={item.category}
+                                                        onChange={(e) => setInternationalScript(internarionalScript.map( itemList => {
+                                                            if (itemList.source === item.source && itemList.interface === item.interface) {
+                                                                return({
+                                                                    ...itemList,
+                                                                    category: e.target.value
+                                                                })
+                                                            } else {
+                                                                return ({
+                                                                    ...itemList
+                                                                })
+                                                            }
+                                                        }))}
+                                                    >
                                                         {
                                                             categoryInternationalLinks.map(item =>
                                                                 <option value={item} >{item}</option>

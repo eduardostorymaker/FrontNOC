@@ -1,6 +1,5 @@
 "use client"
 
-import { LinkSharp } from "@mui/icons-material"
 import { useState, useEffect } from "react"
 
 
@@ -16,23 +15,23 @@ const filterKind = [
         filter:"GigabitEthernet",
         tag: "10",
     },
-    {
-        filter:"50",
-        tag: "50",
-    },
+    // {
+    //     filter:"50",
+    //     tag: "50",
+    // },
     {
         filter:"100",
         tag: "100",
     }
 ]
 const capacities = [
-    {
-        id:"50|100",
-        filter:"50",
-        count: 0,
-        afected: 0,
-        date: new Date(0)
-    },
+    // {
+    //     id:"50|100",
+    //     filter:"50",
+    //     count: 0,
+    //     afected: 0,
+    //     date: new Date(0)
+    // },
     {
         id:"100",
         filter:"100",
@@ -175,20 +174,20 @@ const serviceType = [
         afected:false,
         capacities
     },
-    {
-        id: "GTD",
-        filter:"gtd",
-        count: 0,
-        afected:false,
-        capacities
-    },
-    {
-        id: "PORTA",
-        filter:"porta",
-        count: 0,
-        afected:false,
-        capacities
-    },
+    // {
+    //     id: "GTD",
+    //     filter:"gtd",
+    //     count: 0,
+    //     afected:false,
+    //     capacities
+    // },
+    // {
+    //     id: "PORTA",
+    //     filter:"porta",
+    //     count: 0,
+    //     afected:false,
+    //     capacities
+    // },
     {
         id: "CIRION",
         filter:"cirion",
@@ -243,6 +242,7 @@ export default function BriefInternationalLinks () {
     const [showSummary, setShowSummary] = useState(true)
     const [showAlarmsSection,setShowAlarmsSection] = useState(false)
     const [showInterconexions, setShowInterconexions] = useState(true)
+    const [copyMail,setCopyMail] = useState("Copiar contenido")
 
     useEffect(()=>{
         console.log("Consultando API")
@@ -272,6 +272,10 @@ export default function BriefInternationalLinks () {
 
         })
     })
+
+    console.log("onlyAlarmsInterfacesWithDownAndLag")
+    console.log(onlyAlarmsInterfacesWithDownAndLag)
+
     const summarizedAlarmInterfacesWithoutRepeats = onlyAlarmsInterfacesWithDownAndLag.reduce((a,v) => {
         const auxArray = []
         if (a.length) {
@@ -494,36 +498,81 @@ export default function BriefInternationalLinks () {
 
     const dateZero = new Date(0)
 
-    const beginingSMSTitleText = "Caída enlaces internacionales "
+    const beginingSMSTitleText = "Afectación de enlaces internacionales "
 
-    const titleSMS = summarizedServicesAfectedOnlyAfected.reduce((a,v) => {
-        const categoryText = v.capacities.reduce((ac,vc)=>{
-            if (vc.id.trim().toLowerCase() !== "trunk") {
-                return {
-                    text: ac.text + `${vc.id}G(${vc.afected}/${vc.count}) `,
-                    date: ac.date === 0?vc.date:(ac.date > vc.date?vc.date:ac.date)
-                }
-            } else {
-                return ac
+    // const titleSMS = summarizedServicesAfectedOnlyAfected.reduce((a,v) => {
+    //     const categoryText = v.capacities.reduce((ac,vc)=>{
+    //         if (vc.id.trim().toLowerCase() !== "trunk") {
+    //             return {
+    //                 text: ac.text + `${vc.id}G(${vc.afected}/${vc.count}) `,
+    //                 date: ac.date === 0?vc.date:(ac.date > vc.date?vc.date:ac.date)
+    //             }
+    //         } else {
+    //             return ac
+    //         }
+    //     },{
+    //         text: "",
+    //         date: 0
+    //     })
+    //     console.log("v.date")
+    //     console.log(v.date)
+    //     return {
+    //         date: a.date === 0?categoryText.date:(a.date > categoryText.date?categoryText.date:a.date),
+    //         text: a.text + `${v.id} ${categoryText.text.trim()} `
+    //     }
+    // },{
+    //     date: 0,
+    //     text: beginingSMSTitleText
+    // })
+
+    const reSummaryByCapacityAndService = summarizedServicesAfectedOnlyAfected.reduce((a,v) => {
+        let aux = {...a}
+        v.capacities.map( item => {
+            aux.date = aux.date === 0?item.date:(aux.date<item.date?aux.date:item.date)
+            if (item.id === "10") {
+                aux.ten.count = aux.ten.count + 1
+                aux.ten.services = [...aux.ten.services,{
+                    name: v.id,
+                    count: item.count,
+                    afected: item.afected
+                }]
+            } else if (item.id === "100") {
+                aux.hundred.count = aux.hundred.count + 1
+                aux.hundred.services = [...aux.hundred.services,{
+                    name: v.id,
+                    count: item.count,
+                    afected: item.afected
+                }]
             }
-        },{
-            text: "",
-            date: 0
         })
-        console.log("v.date")
-        console.log(v.date)
-        return {
-            date: a.date === 0?categoryText.date:(a.date > categoryText.date?categoryText.date:a.date),
-            text: a.text + `${v.id} ${categoryText.text.trim()} `
-        }
+        return aux
     },{
         date: 0,
-        text: beginingSMSTitleText
+        hundred: {
+            count:0,
+            services:[]
+        },
+        ten: {
+            count:0,
+            services:[]
+        }
     })
 
+    const functionServicesToText = (dataToProcess) => dataToProcess.reduce((a,v)=>{
+        return `${a} ${v.name} (${v.afected}/${v.count})`
+    },"")
 
-    console.log("titleSMStext")
-    console.log(titleSMS.text.trim())
+
+    const servicesText100 = reSummaryByCapacityAndService.hundred.count?`100G:${functionServicesToText(reSummaryByCapacityAndService.hundred.services)}`:""
+    const servicesText10 = reSummaryByCapacityAndService.ten.count?`10G:${functionServicesToText(reSummaryByCapacityAndService.ten.services)}`:""
+    const servicesTextConsolided = `${servicesText100?servicesText100 +"\n":""}${servicesText10?servicesText10:""}`
+
+    console.log("servicesTextConsolided")
+    console.log(servicesTextConsolided)
+
+
+    console.log("reSummaryByCapacityAndService")
+    console.log(reSummaryByCapacityAndService)
 
     const briefAllLinks = (internarionalLinksFiltered) => {
         return internarionalLinksFiltered.reduce((a,v) => {
@@ -553,10 +602,63 @@ export default function BriefInternationalLinks () {
         } else {
             return a
         }
-    },"")
+    },beginingSMSTitleText)
 
     console.log("textCapacityAfected")
     console.log(textCapacityAfected.trim())
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    ///////Correo:
+    function copyToClipboard(text) {
+        let textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            setCopyMail("Contenido copiado")
+            console.log('Texto copiado al portapapeles');
+            setTimeout(() => setCopyMail("Copiar contenido"), 2000)
+        } catch (err) {
+            console.error('Error al copiar al portapapeles', err);
+            setCopyMail("Error al copiar")
+        }
+        document.body.removeChild(textArea);
+    }
+
+    const to = 'backofficetransportenacional@claro.com.pe';
+    const cc = 'gestionysupervision@claro.com.pe;noctransporte@claro.com.pe';
+    const subject = textCapacityAfected?textCapacityAfected:"Caída enlaces internacionales";
+    const afectedList = internationalLinksOnlyAfected?internationalLinksOnlyAfected.reduce((a,v) => {
+        return `${a}
+${v.source} ${v.interface} ${v.description}`
+    },""):""
+    const body = `Estimados BOTN,
+  
+Se esta presentando afectación de los siguientes enlaces Internacionales, por favor revisar:
+
+Servicios:
+${servicesTextConsolided?servicesTextConsolided.trim():""}
+ 
+
+Capacidades:
+${textCapacityAfected?textCapacityAfected.trim():""}
+
+
+Enlaces:
+${afectedList?afectedList.trim():""}
+
+
+Alarmas:
+${alarmList}
+    `;
+  
+    const sendEmail = () => {
+      const mailtoLink = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("")}&cc=${encodeURIComponent(cc)}`;
+      window.location.href = mailtoLink;
+    }
+
     //////////////////////////////////////////
     /////Variables:
     /////linksWithAllData
@@ -564,8 +666,6 @@ export default function BriefInternationalLinks () {
     /////summarizedCapacityAfected
     /////summarizedServices
     /////summarizedCapacityAfected
-    console.log("titleSMS.date")
-    console.log(titleSMS.date)
 
     //////////////////////////////////////////////////////////////////////////////////////////
     ///////Styles
@@ -627,15 +727,34 @@ export default function BriefInternationalLinks () {
                                     <div
                                         className={`p-2 ${showAlarmsSection?"":"hidden"}`}
                                     >
-                                        <div
-                                            onClick={() => setAlarmList("")} 
-                                            className="p-2 bg-red-400 text-white w-[100px] flex justify-center hover:bg-yellow-400"
-                                        >
-                                            Borrar
+                                        <div className="flex justify-between">
+                                            <div
+                                                onClick={() => setAlarmList("")} 
+                                                className="p-2 bg-red-400 text-white w-[100px] flex justify-center hover:bg-yellow-400"
+                                            >
+                                                Borrar
+                                            </div>
+                                            <div className="flex">
+                                                <div
+                                                    onClick={sendEmail}
+                                                    className="p-2 bg-red-400 text-white w-[150px] flex justify-center hover:bg-yellow-400 border-r-[1px] border-white"
+                                                >
+                                                    Enviar Correo
+                                                </div>
+                                                <div
+                                                    onClick={()=>copyToClipboard(body)}
+                                                    className="p-2 bg-red-400 text-white w-[200px] flex justify-center hover:bg-yellow-400"
+                                                >
+                                                    {
+                                                        copyMail
+                                                    }
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="w-full h-[250px]">
                                             
                                             <textarea
+                                                spellCheck="false"
                                                 value={alarmList}
                                                 onChange={(e)=>setAlarmList(e.target.value)}
                                                 className="h-full w-full resize-none overflow-scroll whitespace-nowrap p-2 border-[1px] border-red-500 text-black"
@@ -649,9 +768,9 @@ export default function BriefInternationalLinks () {
                                                 </div>
                                                 <div className="p-2 border-[1px] border-b-0 border-red-400">
                                                     {
-                                                      titleSMS.date
+                                                      reSummaryByCapacityAndService.date
                                                       ?
-                                                      titleSMS.date.toLocaleString('es-ES', {
+                                                      reSummaryByCapacityAndService.date.toLocaleString('es-ES', {
                                                         day: '2-digit', 
                                                         month: '2-digit', 
                                                         year: 'numeric', 
@@ -666,30 +785,30 @@ export default function BriefInternationalLinks () {
                                             </div>
                                             <div className="grid grid-cols-[160px_1fr]">
                                                 <div className="p-2 bg-red-400 text-white border-b-[1px] border-white">
-                                                    Servicios:
+                                                    Capacidades:
                                                 </div>
                                                 <div className="p-2 border-[1px] border-b-0 border-red-400">
                                                     {
-                                                        titleSMS.text.trim() === beginingSMSTitleText.trim()
+                                                        textCapacityAfected && textCapacityAfected !== beginingSMSTitleText
                                                         ?
-                                                        "--"
+                                                        textCapacityAfected
                                                         :
-                                                        titleSMS.text.trim() 
+                                                        "--"
                                                     }
                                                 </div>
                                             </div>
                                             <div className="grid grid-cols-[160px_1fr]">
                                                 <div className="p-2 bg-red-400 text-white border-b-[1px] border-white">
-                                                    Capacidades:
+                                                    Servicios:
                                                 </div>
-                                                <div className="p-2 border-[1px] border-b-0 border-red-400">
-                                                    {
-                                                        textCapacityAfected
-                                                        ?
-                                                        textCapacityAfected
-                                                        :
-                                                        "--"
-                                                    }
+                                                <div className="border-[1px] h-[70px] border-b-0 border-red-400 overflow-hidden">
+                                                    <textarea 
+                                                        spellCheck="false"
+                                                        value={servicesTextConsolided?servicesTextConsolided:"--"}
+                                                        className="p-2 w-full h-full resize-none"
+                                                    >
+
+                                                    </textarea>
                                                 </div>
                                             </div>
                                             <div className="border-[1px] border-red-400">
