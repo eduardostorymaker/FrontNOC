@@ -1,10 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-
-
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Link from "next/link";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
 
 const filterKind = [
     {
@@ -242,7 +241,11 @@ export default function BriefInternationalLinks () {
     const [showSummary, setShowSummary] = useState(true)
     const [showAlarmsSection,setShowAlarmsSection] = useState(false)
     const [showInterconexions, setShowInterconexions] = useState(true)
-    const [copyMail,setCopyMail] = useState("Copiar contenido")
+    const [copyMail,setCopyMail] = useState(false)
+    const [copyDate,setCopyDate] = useState(false)
+    const [copyCapacity,setCopyCapacity] = useState(false)
+    const [copyServices,setCopyServices] = useState(false)
+    const [copyLinks,setCopyLinks] = useState(false)
 
     useEffect(()=>{
         console.log("Consultando API")
@@ -609,7 +612,7 @@ export default function BriefInternationalLinks () {
 
     //////////////////////////////////////////////////////////////////////////////////////////
     ///////Correo:
-    function copyToClipboard(text) {
+    function copyToClipboard(text,editState) {
         let textArea = document.createElement("textarea");
         textArea.value = text;
         document.body.appendChild(textArea);
@@ -617,12 +620,12 @@ export default function BriefInternationalLinks () {
         textArea.select();
         try {
             document.execCommand('copy');
-            setCopyMail("Contenido copiado")
+            editState(true)
             console.log('Texto copiado al portapapeles');
-            setTimeout(() => setCopyMail("Copiar contenido"), 2000)
+            setTimeout(() => editState(false), 2000)
         } catch (err) {
             console.error('Error al copiar al portapapeles', err);
-            setCopyMail("Error al copiar")
+            editState(false)
         }
         document.body.removeChild(textArea);
     }
@@ -737,16 +740,23 @@ ${alarmList}
                                             <div className="flex">
                                                 <div
                                                     onClick={sendEmail}
-                                                    className="p-2 bg-red-400 text-white w-[150px] flex justify-center hover:bg-yellow-400 border-r-[1px] border-white"
+                                                    className="p-2 bg-red-400 text-white w-[150px] flex justify-center hover:bg-yellow-400 border-r-[1px] border-white cursor-pointer"
                                                 >
                                                     Enviar Correo
                                                 </div>
                                                 <div
-                                                    onClick={()=>copyToClipboard(body)}
-                                                    className="p-2 bg-red-400 text-white w-[200px] flex justify-center hover:bg-yellow-400"
+                                                    onClick={()=>copyToClipboard(body,setCopyMail)}
+                                                    className="p-2 bg-red-400 text-white w-[200px] flex justify-center cursor-pointer"
                                                 >
-                                                    {
+                                                    <div>
+                                                        Copiar contenido
+                                                    </div>
+                                                    {   
                                                         copyMail
+                                                        ?
+                                                        <FactCheckIcon className="text-yellow-400" />
+                                                        :
+                                                        ""
                                                     }
                                                 </div>
                                             </div>
@@ -763,8 +773,33 @@ ${alarmList}
                                         </div>
                                         <div className="py-2">
                                             <div className="grid grid-cols-[160px_1fr]">
-                                                <div className="p-2 bg-red-400 text-white border-b-[1px] border-white">
-                                                    Fecha inicio:
+                                                <div 
+                                                    className="p-2 bg-red-400 text-white border-b-[1px] border-white flex cursor-pointer"
+                                                    onClick={()=>copyToClipboard(
+                                                        reSummaryByCapacityAndService.date
+                                                        ?
+                                                        reSummaryByCapacityAndService.date.toLocaleString('es-ES', {
+                                                          day: '2-digit', 
+                                                          month: '2-digit', 
+                                                          year: 'numeric', 
+                                                          hour: '2-digit', 
+                                                          minute: '2-digit', 
+                                                          hour12: false 
+                                                        })
+                                                        :
+                                                        "--"    
+                                                    ,setCopyDate)}
+                                                >
+                                                    {   
+                                                        copyDate
+                                                        ?
+                                                        <FactCheckIcon className="text-yellow-400" />
+                                                        :
+                                                        ""
+                                                    }
+                                                    <div>
+                                                        Fecha inicio:
+                                                    </div>
                                                 </div>
                                                 <div className="p-2 border-[1px] border-b-0 border-red-400">
                                                     {
@@ -784,8 +819,26 @@ ${alarmList}
                                                 </div>
                                             </div>
                                             <div className="grid grid-cols-[160px_1fr]">
-                                                <div className="p-2 bg-red-400 text-white border-b-[1px] border-white">
-                                                    Capacidades:
+                                                <div 
+                                                    className="p-2 bg-red-400 text-white border-b-[1px] border-white flex cursor-pointer"
+                                                    onClick={()=>copyToClipboard(
+                                                        textCapacityAfected && textCapacityAfected !== beginingSMSTitleText
+                                                        ?
+                                                        textCapacityAfected
+                                                        :
+                                                        "--"   
+                                                    ,setCopyCapacity)}
+                                                >
+                                                    {   
+                                                        copyCapacity
+                                                        ?
+                                                        <FactCheckIcon className="text-yellow-400" />
+                                                        :
+                                                        ""
+                                                    }
+                                                    <div>
+                                                        Capacidades:
+                                                    </div>
                                                 </div>
                                                 <div className="p-2 border-[1px] border-b-0 border-red-400">
                                                     {
@@ -798,8 +851,22 @@ ${alarmList}
                                                 </div>
                                             </div>
                                             <div className="grid grid-cols-[160px_1fr]">
-                                                <div className="p-2 bg-red-400 text-white border-b-[1px] border-white">
-                                                    Servicios:
+                                                <div 
+                                                    className="p-2 bg-red-400 text-white border-b-[1px] border-white flex cursor-pointer"
+                                                    onClick={()=>copyToClipboard(
+                                                        servicesTextConsolided?servicesTextConsolided:"--"
+                                                    ,setCopyServices)}
+                                                >
+                                                    {   
+                                                        copyServices
+                                                        ?
+                                                        <FactCheckIcon className="text-yellow-400" />
+                                                        :
+                                                        ""
+                                                    }
+                                                    <div>
+                                                        Servicios:
+                                                    </div>
                                                 </div>
                                                 <div className="border-[1px] h-[70px] border-b-0 border-red-400 overflow-hidden">
                                                     <textarea 
@@ -812,8 +879,27 @@ ${alarmList}
                                                 </div>
                                             </div>
                                             <div className="border-[1px] border-red-400">
-                                                <div className="p-2 bg-red-400 text-white border-b-[1px] border-white w-[160px]">
-                                                    Enlaces Afectados:
+                                                <div className="p-2 bg-red-400 text-white border-b-[1px] border-white w-[160px] cursor-pointer"
+                                                    onClick={()=>copyToClipboard(
+                                                        internationalLinksOnlyAfected.length
+                                                        ?
+                                                        internationalLinksOnlyAfected.reduce((a,v)=>{
+                                                            return a + "\n" + v.source + " " + v.interface + " " + v.description
+                                                        },"").trim()
+                                                        :
+                                                        "--"
+                                                    ,setCopyLinks)}
+                                                >
+                                                    {   
+                                                        copyLinks
+                                                        ?
+                                                        <FactCheckIcon className="text-yellow-400" />
+                                                        :
+                                                        ""
+                                                    }
+                                                    <div>
+                                                        Enlaces Afectados:
+                                                    </div>
                                                 </div>
                                                 {
                                                     internationalLinksOnlyAfected.map(item =>
