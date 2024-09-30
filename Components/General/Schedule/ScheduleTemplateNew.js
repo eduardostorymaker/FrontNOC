@@ -141,7 +141,7 @@ export default function ScheduleTemplateNew ({ group }) {
                                 {
                                     dataGroup.map(item => 
                                         <div 
-                                            className={`h-full p-2 flex items-center border-r-[1px] border-white ${item.id === selectedGroup?.id?"bg-white text-red-700":"text-white" }`} 
+                                            className={`h-full p-2 flex items-center border-r-[1px] border-white cursor-pointer ${item.id === selectedGroup?.id?"bg-white text-red-700":"text-white" }`} 
                                             onClick={()=>router.push(`/general/schedulesv2/view?group=${item.id}`)}
                                         >
                                             {
@@ -194,7 +194,9 @@ export default function ScheduleTemplateNew ({ group }) {
             
                                 </div>
                                 <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-2 p-2">
-                                    {
+                                    {   
+                                        dataScheduleFiltered.length
+                                        ?
                                         dataScheduleFiltered.map(item => 
                                             <div className="rounded-xl shadow-lg shadow-red-500/50 overflow-hidden">
                                                 <div className="p-2">
@@ -263,6 +265,10 @@ export default function ScheduleTemplateNew ({ group }) {
                                                 </Link>
                                             </div>
                                         )
+                                        :
+                                        <div className="pl-4 font-bold">
+                                            Selecciona un grupo para mostrar los horarios!
+                                        </div>
                                     }
                                 </div>
                             </div>

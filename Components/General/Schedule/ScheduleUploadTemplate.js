@@ -41,6 +41,7 @@ export default function ScheduleUploadTemplate({ scheduleGroup, paramId }) {
             <div className="h-full w-full">
                 <ScheduleUploadItem />
             </div>
+
            
         </div>
     )
