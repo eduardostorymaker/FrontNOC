@@ -228,6 +228,10 @@ const filterTableFirst = {
     },
     intxAfected: {
         state: false
+    },
+    device: {
+        state: false,
+        value: ""
     }
 } 
 
@@ -259,22 +263,64 @@ export default function BriefInternationalLinks () {
     /////////////////////////////////////////////////////////////////////////////////
     ///////// Processing Alarm List
     const lines = alarmList.trim().split('\n')
-    const linesFiltered = lines.filter( line => line.toLowerCase().includes("link down"|"LAG"))
+    const massiveDownLines = lines.filter( line => 
+        line.toLowerCase().includes("The Device is offline".toLowerCase())
+        &&
+        line.toLowerCase().includes("rmpls".toLowerCase())
+        &&
+        line.toLowerCase().includes("br0".toLowerCase())
+    ) 
 
+    
+    const linesFiltered = lines.filter( line => 
+        line.toLowerCase().includes("link down")
+        ||
+        line.toLowerCase().includes("lag")
+    )
+    
     const regexTime = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/g
     const regexInterface =  /Name=([^\s\t]+)/
     const regexDevice = /rMPLS\w+/g;
     
-    const onlyAlarmsInterfacesWithDownAndLag = linesFiltered.map( line => {
-        return ({
-            alarm: line.toLowerCase().includes("link down")?"down":"lag",
-            source: line.match(regexDevice)?line.match(regexDevice)[0]:"",
-            interface: line.match(regexInterface)?line.match(regexInterface)[1]:"",
-            date:line.match(regexTime).map(time => new Date(time)).reduce((a,v) => { return a===0?v:(a<v?a:v) },0),
-            kind:filterKind.find( item => line.match(regexInterface)[1].toLowerCase().includes(item.filter.toLowerCase()))?filterKind.find( item => line.match(regexInterface)[1].toLowerCase().includes(item.filter.toLowerCase())).tag:""
+    const getMassiveDownDevices = () => {
+        try {
+            return massiveDownLines.length?massiveDownLines.map( line => {
+                return({
+                    device: line.match(regexDevice)?line.match(regexDevice)[0]:"",
+                    date:line.match(regexTime).map(time => new Date(time)).reduce((a,v) => { return a===0?v:(a<v?a:v) },0),
+                })
+            }):[]
 
-        })
-    })
+        } catch {
+            return []
+        }
+    } 
+
+    const massiveDownDevices = getMassiveDownDevices()
+
+    
+    console.log("MASIVO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    console.log(massiveDownDevices)
+    console.log("linesFiltered")
+    console.log(linesFiltered)
+    const getOnlyAlarmsInterfacesWithDownAndLag = () => {
+        try {
+            return linesFiltered.length?linesFiltered.map( line => {
+                return ({
+                    alarm: line.toLowerCase().includes("link down")?"down":"lag",
+                    source: line.match(regexDevice)?line.match(regexDevice)[0]:"",
+                    interface: line.match(regexInterface)?line.match(regexInterface)[1]:"",
+                    date:line.match(regexTime).map(time => new Date(time)).reduce((a,v) => { return a===0?v:(a<v?a:v) },0),
+                    kind:filterKind.find( item => line.match(regexInterface)[1].toLowerCase().includes(item.filter.toLowerCase()))?filterKind.find( item => line.match(regexInterface)[1].toLowerCase().includes(item.filter.toLowerCase())).tag:""
+        
+                })
+            }):[]
+        } catch {
+            return []
+        }
+    } 
+
+    const onlyAlarmsInterfacesWithDownAndLag = getOnlyAlarmsInterfacesWithDownAndLag()
 
     console.log("onlyAlarmsInterfacesWithDownAndLag")
     console.log(onlyAlarmsInterfacesWithDownAndLag)
@@ -315,8 +361,30 @@ export default function BriefInternationalLinks () {
 
     /////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////
+    ///////// Massive change
+
+    const internarionalLinksWithMassive = massiveDownDevices.length?internarionalLinks.map( link => {
+        for (let device of massiveDownDevices) {
+            if (link.source.toLowerCase() === device.device.toLowerCase()) {
+                return ({
+                    ...link,
+                    afected: true,
+                    date: device.date
+                })
+            }
+        }
+        return ({
+            ...link
+        })
+    }):internarionalLinks
+
+    
+    /////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////
     ///////// Filtering trunks
-    const internationaLinksOnly = internarionalLinks.filter( item => item.category === "internacional")
+    const internationaLinksOnly = internarionalLinksWithMassive.filter( item => item.category === "internacional")
+    console.log("internationaLinksOnly")
+    console.log(internationaLinksOnly)
     const internarionalLinksWithTrunksFilter = internationaLinksOnly.filter( item => {
         if (trunkFilter === "without") {
             return (item.kind.toLowerCase() !== "trunk")
@@ -333,6 +401,9 @@ export default function BriefInternationalLinks () {
     ///////// Processing data from database
 
     const internationalLinkAddedAfectedAndDateOnFirstLevel = internarionalLinksWithTrunksFilter.map( link => {
+        // if ( massiveDownDevices.length) {
+        //     if ( link.source )
+        // }
         for (let afectedLink of summarizedAlarmInterfacesWithoutRepeats) {
             const regex = /eth-trunk(\d+)/
             const linkTrunk = link.trunk.replaceAll(" ","").toLowerCase().match(regex)?link.trunk.replaceAll(" ","").toLowerCase().match(regex)[1]:"notrunklink"
@@ -353,8 +424,6 @@ export default function BriefInternationalLinks () {
         }
         return ({
             ...link,
-            afected: false,
-            date: new Date(0)
         })
     })
 
@@ -452,6 +521,88 @@ export default function BriefInternationalLinks () {
     console.log("linksWithAllData")
     console.log(linksWithAllData)
 
+    const summaryByDevice = linksWithAllData.reduce((a,v) => {
+        let aux = [...a]
+        return aux.map( item => {
+            if (item.source.toLowerCase().trim() === v.source.toLowerCase().trim()) {
+                if (v.kind === "10") {
+                    return ({
+                        ...item,
+                        ten: {
+                            count: item.ten.count + 1,
+                            afected: v.afected?item.ten.afected + 1:item.ten.afected
+                        }
+                    })
+                } else if (v.kind === "100") {
+                    return ({
+                        ...item,
+                        hundred: {
+                            count: item.hundred.count + 1,
+                            afected: v.afected?item.hundred.afected + 1:item.hundred.afected
+                        }
+                    })
+                } else {
+                    return ({
+                        ...item
+                    })
+                }
+            } else {
+                return ({
+                    ...item
+                })
+            }
+        })
+
+    },[
+        {
+            source: "rMPLSVillaSalvadorBR01",
+            ten: {
+                count: 0,
+                afected: 0
+            },
+            hundred: {
+                count: 0,
+                afected: 0
+            },
+        },
+        {
+            source: "rMPLSPolo1BR02",
+            ten: {
+                count: 0,
+                afected: 0
+            },
+            hundred: {
+                count: 0,
+                afected: 0
+            },
+        },
+        {
+            source: "rMPLSVillaSalvadorBR03",
+            ten: {
+                count: 0,
+                afected: 0
+            },
+            hundred: {
+                count: 0,
+                afected: 0
+            },
+        },
+        {
+            source: "rMPLSPolo1BR04",
+            ten: {
+                count: 0,
+                afected: 0
+            },
+            hundred: {
+                count: 0,
+                afected: 0
+            },
+        }
+    ])
+
+    console.log("summaryByDevice")
+    console.log(summaryByDevice)
+
     const linksWithAllDataToShow = linksWithAllData.filter( item => {
         if (filterTable.serviceName.state) {
             return(
@@ -465,10 +616,17 @@ export default function BriefInternationalLinks () {
             return(
                 item.afected
             )
+        } else if (filterTable.device.state) {
+            return(
+                item.source.toLowerCase().includes(filterTable.device.value.toLowerCase())
+            )
         } else {
             return true
         }
     })
+
+    console.log("summarizedServicesAfectedLevel2")
+    console.log(summarizedServicesAfectedLevel2)
 
     //
     const summarizedServices = summarizedServicesAfectedLevel2.map( briefItem => {
@@ -941,7 +1099,7 @@ ${alarmList}
                                                 <div className="grid grid-cols-2 w-[200px] gap-2 border-[1px] border-red-400 mr-2">
                                                     <div 
                                                         className={
-                                                            `flex justify-center items-center text-white p-2 
+                                                            `flex justify-center items-center text-white p-2 cursor-pointer
                                                             ${filterTable.capacityName.value === itemBrief.id.toLowerCase()?"bg-yellow-400": "bg-red-400"}`
                                                         }
                                                         onClick={() => {
@@ -962,6 +1120,11 @@ ${alarmList}
                                                                 intxAfected: {
                                                                     ...filterTable.intxAfected,
                                                                     state: false
+                                                                },
+                                                                device: {
+                                                                    ...filterTable.device,
+                                                                    state: false,
+                                                                    value: ""
                                                                 }
                                                             })
                                                             :
@@ -980,6 +1143,11 @@ ${alarmList}
                                                                 intxAfected: {
                                                                     ...filterTable.intxAfected,
                                                                     state: false
+                                                                },
+                                                                device: {
+                                                                    ...filterTable.device,
+                                                                    state: false,
+                                                                    value: ""
                                                                 }
                                                             })
                                                         }}
@@ -1013,6 +1181,136 @@ ${alarmList}
                                         }
                                     </div>
                                     <div className="p-2 text-red-900 text-[18px]">
+                                        Cantidad de enlaces por equipo:
+                                    </div>
+                                    
+                                    <div className="flex p-2">
+                                        {
+                                            summaryByDevice.map( device =>
+                                                <div className="flex border-[1px] border-red-400 mr-2">
+                                                    <div 
+                                                        className={
+                                                            `flex justify-center items-center text-white p-2 border-r-[1px] border-white cursor-pointer
+                                                            ${filterTable.device.value.toLowerCase() === device.source.toLowerCase()?"bg-yellow-400": "bg-red-400"}`
+                                                        }
+                                                        onClick={() => {
+                                                            filterTable.device.value.toLowerCase() === device.source.toLowerCase()
+                                                            ?
+                                                            setFilterTable({
+                                                                ...filterTable,
+                                                                serviceName: {
+                                                                    ...filterTable.serviceName,
+                                                                    state: false,
+                                                                    value: ""
+                                                                },
+                                                                capacityName: {
+                                                                    ...filterTable.capacityName,
+                                                                    state: false,
+                                                                    value: ""
+                                                                },
+                                                                intxAfected: {
+                                                                    ...filterTable.intxAfected,
+                                                                    state: false
+                                                                },
+                                                                device: {
+                                                                    ...filterTable.device,
+                                                                    state: false,
+                                                                    value: ""
+                                                                }
+                                                            })
+                                                            :
+                                                            setFilterTable({
+                                                                ...filterTable,
+                                                                serviceName: {
+                                                                    ...filterTable.serviceName,
+                                                                    state: false,
+                                                                    value: ""
+                                                                },
+                                                                capacityName: {
+                                                                    ...filterTable.capacityName,
+                                                                    state: false,
+                                                                    value: ""
+                                                                },
+                                                                intxAfected: {
+                                                                    ...filterTable.intxAfected,
+                                                                    state: false
+                                                                },
+                                                                device: {
+                                                                    ...filterTable.device,
+                                                                    state: true,
+                                                                    value: device.source
+                                                                }
+                                                            })
+                                                        }}
+                                                    >
+                                                        {
+                                                            `${device.source}`
+                                                        }
+                                                    </div>
+                                                    <div className="flex">
+                                                        {
+                                                            device.hundred.count
+                                                            ?
+                                                            <div className="flex items-center">
+                                                                <div className="bg-black text-white h-full items-center p-2">
+                                                                    100G
+                                                                </div>
+                                                                <div className="flex items-center p-2">
+                                                                    {
+                                                                        `${device.hundred.count}`
+                                                                    }
+                                                                </div>
+                                                                {
+                                                                    device.hundred.afected
+                                                                    ?
+                                                                    <div className="h-[30px] w-[30px] bg-red-400 text-white flex justify-center items-center rounded-full mr-2">
+                                                                        {
+                                                                            `${device.hundred.afected}`
+                                                                        }
+                                                                    </div>
+                                                                    :
+                                                                    ""
+                                                                }
+                                                            </div>
+                                                            :
+                                                            ""
+                                                        }
+                                                        {
+                                                            device.ten.count
+                                                            ?
+                                                            <div className="flex items-center">
+                                                                <div className="bg-black text-white h-full items-center p-2">
+                                                                    10G
+                                                                </div>
+                                                                <div className="flex items-center p-2">
+                                                                    {
+                                                                        `${device.ten.count}`
+                                                                    }
+                                                                </div>
+                                                                {
+                                                                    device.ten.afected
+                                                                    ?
+                                                                    <div className="h-[30px] w-[30px] bg-red-400 text-white flex justify-center items-center rounded-full mr-2">
+                                                                        {
+                                                                            `${device.ten.afected}`
+                                                                        }
+                                                                    </div>
+                                                                    :
+                                                                    ""
+                                                                }
+                                                            </div>
+                                                            :
+                                                            ""
+                                                        }
+
+            
+                                                    </div>
+                                                </div>
+                                            
+                                            )
+                                        }
+                                    </div>
+                                    <div className="p-2 text-red-900 text-[18px]">
                                         Cantidad de enlaces por servicio:
                                     </div>
                                     <div className="grid grid-cols-8 p-2 gap-2 text-[14px]">
@@ -1021,7 +1319,7 @@ ${alarmList}
                                                 <div className="border-[1px] border-red-200">
                                                     <div className={`flex justify-center text-white p-2 ${filterTable.serviceName.value === itemBriefService.id?"bg-yellow-400":"bg-red-400 "}`}>
                                                         <div 
-                                                            className="px-2" 
+                                                            className="px-2 cursor-pointer" 
                                                             onClick={() => 
                                                                 filterTable.serviceName.value === itemBriefService.id
                                                                 ?
@@ -1040,6 +1338,11 @@ ${alarmList}
                                                                     intxAfected: {
                                                                         ...filterTable.intxAfected,
                                                                         state: false
+                                                                    },
+                                                                    device: {
+                                                                        ...filterTable.device,
+                                                                        state: false,
+                                                                        value: ""
                                                                     }
                                                                 })
                                                                 :
@@ -1058,6 +1361,11 @@ ${alarmList}
                                                                     intxAfected: {
                                                                         ...filterTable.intxAfected,
                                                                         state: false
+                                                                    },
+                                                                    device: {
+                                                                        ...filterTable.device,
+                                                                        state: false,
+                                                                        value: ""
                                                                     }
 
                                                                 })
@@ -1128,7 +1436,7 @@ ${alarmList}
                                 <div className="flex mb-2">
 
                                     <div 
-                                        className={`p-2 text-white ${filterTable.intxAfected.state?"bg-yellow-400":"bg-red-400"}`}
+                                        className={`p-2 text-white cursor-pointer ${filterTable.intxAfected.state?"bg-yellow-400":"bg-red-400"}`}
                                         onClick={() => 
                                             filterTable.intxAfected.state
                                             ?
@@ -1147,24 +1455,36 @@ ${alarmList}
                                                     ...filterTable.serviceName,
                                                     state:false,
                                                     value:""
-                                                }})
+                                                },
+                                                device: {
+                                                    ...filterTable.device,
+                                                    state: false,
+                                                    value: ""
+                                                }
+                                            })
                                             :
                                             setFilterTable({
-                                            ...filterTable,
-                                            intxAfected: {
-                                                ...filterTable.intxAfected,
-                                                state: true,
-                                            },
-                                            capacityName: {
-                                                ...filterTable.capacityName,
-                                                state: false,
-                                                value: ""
-                                            },
-                                            serviceName: {
-                                                ...filterTable.serviceName,
-                                                state:false,
-                                                value:""
-                                            }})
+                                                ...filterTable,
+                                                intxAfected: {
+                                                    ...filterTable.intxAfected,
+                                                    state: true,
+                                                },
+                                                capacityName: {
+                                                    ...filterTable.capacityName,
+                                                    state: false,
+                                                    value: ""
+                                                },
+                                                serviceName: {
+                                                    ...filterTable.serviceName,
+                                                    state:false,
+                                                    value:""
+                                                },
+                                                device: {
+                                                    ...filterTable.device,
+                                                    state: false,
+                                                    value: ""
+                                                }
+                                            })
                                         }
                                     >
                                         Afectados
