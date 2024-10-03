@@ -34,19 +34,37 @@ export default function test3 () {
           { month: 'May', value: 70 },
           { month: 'Jun', value: 60 }
         ];
+
+        const margin = {
+            top: 30,
+            right: 30,
+            bottom: 30,
+            left: 30
+        }
+
+        const width = 500
+        const height = 300
+        //const ymax = Math.max(...data.map( d => d.value))
+        const ymax = d3.max(data, d => d.value)
+
+        const yScale = d3
+            .scaleLinear()
+            .domain([0, ymax])
+            .range([height - margin.bottom, margin.top]);
+            
+        const xScale = d3
+            .scaleBand()
+            .domain(data.map(d => d.month))
+            .range([margin.left, width - margin.right])
+            .padding(0.1);
+
+        const svg = d3
+            .select(svgRef.current)
+            .attr("width", width)
+            .attr("height", height);
     
-        const svg = d3.select(svgRef.current)
-          .attr("width", 500)
-          .attr("height", 300);
-    
-        const xScale = d3.scaleBand()
-          .domain(data.map(d => d.month))
-          .range([0, 500])
-          .padding(0.1);
-    
-        const yScale = d3.scaleLinear()
-          .domain([0, d3.max(data, d => d.value)])
-          .range([300, 0]);
+        const yAxis = g => g.attr("transform", `translate(${margin.left})`).call(d3.axisLeft(yScale)) 
+        const xAxis = g => g.attr("transform",`translate(0,${height - margin.bottom})`).call(d3.axisBottom(xScale).tickFormat(d => d.name))
     
         // Añadir barras
         svg.selectAll(".bar")

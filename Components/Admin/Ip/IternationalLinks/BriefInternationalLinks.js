@@ -275,7 +275,7 @@ export default function BriefInternationalLinks () {
     const linesFiltered = lines.filter( line => 
         line.toLowerCase().includes("link down")
         ||
-        line.toLowerCase().includes("lag")
+        line.toLowerCase().includes("lag bandw")
     )
     
     const regexTime = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/g
@@ -307,7 +307,7 @@ export default function BriefInternationalLinks () {
         try {
             return linesFiltered.length?linesFiltered.map( line => {
                 return ({
-                    alarm: line.toLowerCase().includes("link down")?"down":"lag",
+                    alarm: line.toLowerCase().includes("link down")?"down":"lag bandw",
                     source: line.match(regexDevice)?line.match(regexDevice)[0]:"",
                     interface: line.match(regexInterface)?line.match(regexInterface)[1]:"",
                     date:line.match(regexTime).map(time => new Date(time)).reduce((a,v) => { return a===0?v:(a<v?a:v) },0),
