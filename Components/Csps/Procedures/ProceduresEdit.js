@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import SaveIcon from '@mui/icons-material/Save';
 import Link from "next/link";
@@ -8,6 +9,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 export default function ProceduresEdit ({ params }) {
 
+    const router = useRouter()
     const { folder, editid} = params
 
     console.log(folder)
@@ -51,7 +53,7 @@ export default function ProceduresEdit ({ params }) {
             // setStateDb(statesMessages.saved)
             // setDataLinkGroup(addToDo(dataLinkGroup))
             // if (params.id === "new") {
-            //     router.push("/general/links")
+            router.push(`/csps/procedures/${folder}`)
             // }
 
         } catch (error) {
@@ -82,6 +84,7 @@ export default function ProceduresEdit ({ params }) {
             // if (params.id === "new") {
             //     router.push("/general/links")
             // }
+            router.push(`/csps/procedures/${folder}`)
 
         } catch (error) {
             console.log("Error en el update")

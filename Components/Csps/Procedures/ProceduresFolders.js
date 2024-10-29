@@ -67,6 +67,12 @@ export default function ProceduresFolders ({ params }) {
                 setFileSelected(true)
                 setFailedMessage(null)
                 setTypeOfFile("xls")
+            } else {
+                setImage(e.target.files[0])
+                setCreateObjectURL(URL.createObjectURL(e.target.files[0]))
+                setFileSelected(true)
+                setFailedMessage(null)
+                setTypeOfFile("other")
             }
         }
     }
@@ -109,11 +115,11 @@ export default function ProceduresFolders ({ params }) {
                         throw new Error("Error "+ dataInfo.status + ": " +dataInfo.error)
                     }
                     console.log(dataInfo) 
-                    setAskForData(!askForData)
                     setFileName("")
                     setCreateObjectURL(null)
                     setImage(null)
                     setTryingUpload(false)
+                    setAskForData(!askForData)
                     // router.push(`/general/schedulesv2/view?group=${params.group}`)
                     // setTryToDb(tryToDbStates.success)
                     // setCanEdit(false)
