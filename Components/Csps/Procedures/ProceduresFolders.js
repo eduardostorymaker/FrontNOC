@@ -37,10 +37,11 @@ export default function ProceduresFolders ({ params }) {
     const [tryingUpload,setTryingUpload] = useState(false)
     const [addNew,setAddNew] = useState(false)
     const [canEdit,setCanEdit] = useState(false)
-    console.log("image")
-    console.log(image)
-    console.log("createObjectURL")
-    console.log(createObjectURL)
+    const dataToShow = dataList?dataList.filter(item => paramsGroup === item.folder ):""
+    console.log("dataList")
+    console.log(dataList)
+    console.log("dataToShow")
+    console.log(dataToShow)
 
     const fileSource = "http://172.19.128.128:4444/cspsImages/procedures"
 
@@ -151,9 +152,9 @@ export default function ProceduresFolders ({ params }) {
                     <div>
                         <div className="p-2 text-[28px]">
                             {
-                                dataList
+                                dataList &&  dataToShow.length
                                 ?
-                                dataList[0].group
+                                dataToShow[0].group
                                 :
                                 paramsGroup
                                 
@@ -262,7 +263,7 @@ export default function ProceduresFolders ({ params }) {
                         {   
                             dataList
                             ?
-                            dataList.map( item =>
+                            dataToShow.map( item =>
                                 <div key={item.id} className="rounded-sm border-[1px] border-red-500" >
                                     {
                                         canEdit
