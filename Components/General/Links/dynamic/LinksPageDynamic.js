@@ -6,6 +6,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -67,7 +68,7 @@ const addToDo = (data) => {
         lines: data.lines.map(item => {
             return({
                 ...item,
-                todo: "none"
+                todo: actionToDo.none
             })
         })
     }
@@ -78,12 +79,16 @@ export default function LinksPageDynamic ({params}) {
     const [dataLinkGroup, setDataLinkGroup] = useState(params.id==="new"?linkGroupNew:"")
     const [dataGroup,setDataGroup] = useState("")
     const [stateDb,setStateDb] = useState(statesMessages.none)
+    const [update,setUpdate] = useState(false)
     const dataToShow = dataLinkGroup ? {
         ...dataLinkGroup,
         lines: orderByPriority(dataLinkGroup.lines.filter( item => item.todo != actionToDo.delete))
     } : ""
+    const limitToUp = 0
+    const limitToDown = dataToShow?dataToShow.lines.length - 1:0
 
     useEffect(()=>{
+        console.log("Carga de data!!")
         if (params.id !== "new") {
             const urlDataLink =  `http://172.19.128.128:3060/api/links/${params.id}`
             fetch(urlDataLink, {cache: 'no-store'})
@@ -95,7 +100,7 @@ export default function LinksPageDynamic ({params}) {
         fetch(urlGroup, {cache: 'no-store'})
             .then( res => res.json())
             .then( data => setDataGroup(data.data))
-    },[])
+    },[update])
 
     const router = useRouter()
 
@@ -155,36 +160,33 @@ export default function LinksPageDynamic ({params}) {
         })
     }
 
-    const deleteLine = () => {
+    const deleteLine = (item) => {
 
-        if (dataLinkGroup.lines.length > 1) {
-            setStateDb(statesMessages.none)
-            const {id,name,value,todo} = dataLinkGroup.lines[dataLinkGroup.lines.length-1]
-            console.log(id,name,value, todo)
-            if (todo === actionToDo.add) {
-                setDataLinkGroup({
-                    ...dataLinkGroup,
-                    lines: dataLinkGroup.lines.slice(0,-1)
-                })
-            } else {
-                const linesModified = dataLinkGroup.lines.map(item => {
-                    if (parseInt(item.id)===parseInt(id)){
-                        return ({
-                            ...item,
-                            todo: actionToDo.delete
-                        })
-                    } else {
-                        return ({
-                            ...item
-                        })
-                    }
-                })
-                setDataLinkGroup({
-                    ...dataLinkGroup,
-                    lines: linesModified
-                })
-            }
+        setStateDb(statesMessages.none)
+        if (item. todo === actionToDo.add) {
+            setDataLinkGroup({
+                ...dataLinkGroup,
+                lines: dataLinkGroup.filter( itemToFilter => itemToFilter.id !== item.id)
+            })
+        } else {
+            const linesModified = dataLinkGroup.lines.map(itemToModify => {
+                if (parseInt(itemToModify.id)===parseInt(item.id)){
+                    return ({
+                        ...itemToModify,
+                        todo: actionToDo.delete
+                    })
+                } else {
+                    return ({
+                        ...itemToModify
+                    })
+                }
+            })
+            setDataLinkGroup({
+                ...dataLinkGroup,
+                lines: linesModified
+            })
         }
+       
     }
 
     const onSaveData = async () => {
@@ -208,7 +210,11 @@ export default function LinksPageDynamic ({params}) {
             setDataLinkGroup(addToDo(dataLinkGroup))
             if (params.id === "new") {
                 router.push("/general/links")
+            } else {
+                setDataLinkGroup("")
+                setUpdate(!update)
             }
+
 
         } catch (error) {
             console.log("Error en el update")
@@ -217,21 +223,21 @@ export default function LinksPageDynamic ({params}) {
         }
     }
 
-    const onChangeLinesOrderDown = (id, priority) => {
+    const onChangeLinesOrderDown = (entryItem,index) => {
         setStateDb(statesMessages.none)
-        const isThere = dataLinkGroup.lines.find( item => parseInt(item.priority) === parseInt(priority) + 1 )
-        if (isThere) {
+        if (index < limitToDown) {
+            console.log("Baja la linea")
             const newLines = dataLinkGroup.lines.map(item => {
-                if (parseInt(item.id) === parseInt(id)) {
+                if (parseInt(item.id) === parseInt(entryItem.id)) {
                     return({
                         ...item,
-                        priority: item.priority + 1,
+                        priority: dataToShow.lines[index+1].priority,
                         todo: item.todo === actionToDo.add ? item.todo : actionToDo.modified
                     })
-                } else if (parseInt(item.id) === parseInt(isThere.id)) {
+                } else if (parseInt(item.id) === parseInt(dataToShow.lines[index+1].id)) {
                     return({
                         ...item,
-                        priority: item.priority - 1,
+                        priority: entryItem.priority,
                         todo: item.todo === actionToDo.add ? item.todo : actionToDo.modified
                     })
                 } else {
@@ -248,21 +254,21 @@ export default function LinksPageDynamic ({params}) {
         }
     }
 
-    const onChangeLinesOrderUp = (id, priority) => {
+    const onChangeLinesOrderUp = (entryItem,index) => {
         setStateDb(statesMessages.none)
-        const isThere = dataLinkGroup.lines.find( item => parseInt(item.priority) === parseInt(priority) - 1 )
-        if (isThere) {
+        if (index > limitToUp) {
+            console.log("Subiendo Linea")
             const newLines = dataLinkGroup.lines.map(item => {
-                if (parseInt(item.id) === parseInt(id)) {
+                if (parseInt(item.id) === parseInt(entryItem.id)) {
                     return({
                         ...item,
-                        priority: item.priority - 1,
+                        priority: dataToShow.lines[index-1].priority,
                         todo: item.todo === actionToDo.add ? item.todo : actionToDo.modified
                     })
-                } else if (parseInt(item.id) === parseInt(isThere.id)) {
+                } else if (parseInt(item.id) === parseInt(dataToShow.lines[index-1].id)) {
                     return({
                         ...item,
-                        priority: item.priority + 1,
+                        priority: entryItem.priority,
                         todo: item.todo === actionToDo.add ? item.todo : actionToDo.modified
                     })
                 } else {
@@ -279,7 +285,6 @@ export default function LinksPageDynamic ({params}) {
         }
     }
 
-    console.log(dataLinkGroup)
 
     return(
         <div>
@@ -328,10 +333,17 @@ export default function LinksPageDynamic ({params}) {
                                 </div>
                                 <div>
                                     {
-                                        dataToShow.lines.map(item => 
+                                        dataToShow.lines.map((item, index) => 
                                             <div key={item.id} className="text-gray-600 font-bold py-2 border-b-2 border-red-100">
-                                                <ArrowDownwardIcon onClick={()=>onChangeLinesOrderDown(item.id,item.priority)} className="text-yellow-400" />
-                                                <ArrowUpwardIcon onClick={()=>onChangeLinesOrderUp(item.id,item.priority)} className="text-yellow-400" />
+                                                <div className='flex justify-between'>
+                                                    <div>
+                                                        <ArrowDownwardIcon onClick={()=>onChangeLinesOrderDown(item,index)} className="text-yellow-400" />
+                                                        <ArrowUpwardIcon onClick={()=>onChangeLinesOrderUp(item,index)} className="text-yellow-400" />
+                                                    </div>
+                                                    <div>
+                                                        <DeleteForeverIcon className="text-red-400 h-[30px] w-[30px] cursor-pointer" onClick={()=>deleteLine(item)} />
+                                                    </div>
+                                                </div>
                                                 <input type="text" id={item.id} name={"line"} value={item.line} className="flex w-full px-5  "  onChange={onChangeLine} />
                                                 <input type="text" id={item.id} name={"link"} value={item.link} className="flex w-full px-5 "  onChange={onChangeLine} />
                                                 <input type="text" id={item.id} name={"comment"} value={item.comment} className="flex w-full px-6 text-xs text-gray-400" onChange={onChangeLine} />
@@ -347,9 +359,7 @@ export default function LinksPageDynamic ({params}) {
                         <div className='h-[50px] w-[50px]'>
                             <AddCircleIcon className="h-full w-full text-yellow-400" onClick={addNewLine} />
                         </div>
-                        <div className='h-[50px] w-[50px]'>
-                            <RemoveCircleIcon className="h-full w-full text-red-400" onClick={deleteLine} />
-                        </div>
+
                     </div>
                 </div>
                 :
