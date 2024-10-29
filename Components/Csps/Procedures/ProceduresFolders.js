@@ -45,7 +45,7 @@ export default function ProceduresFolders ({ params }) {
     const fileSource = "http://172.19.128.128:4444/cspsImages/procedures"
 
     useEffect(()=>{
-        const api = "http://172.19.128.128:3061/api/csps/procedures"
+        const api = "http://172.19.128.128:3060/api/csps/procedures"
         fetch(api,{cache: "no-store"})
             .then( res => res.json())
             .then( data => setDataList(data.data))
@@ -80,7 +80,7 @@ export default function ProceduresFolders ({ params }) {
             formData.append("path",paramsGroup)
             formData.append("name",fileName?fileName:"archivo")
     
-            const response = await fetch("http://172.19.128.128:3061/api/filesystem/cspsprocedures",{
+            const response = await fetch("http://172.19.128.128:3060/api/filesystem/cspsprocedures",{
                 method: 'POST',
                 body: formData
             })
@@ -101,7 +101,7 @@ export default function ProceduresFolders ({ params }) {
                             priority: 10
                         })
                     }
-                    const api = "http://172.19.128.128:3061/api/csps/procedures"
+                    const api = "http://172.19.128.128:3060/api/csps/procedures"
             
                     const response = await fetch(api,requestOptions)
                     const dataInfo = await response.json()

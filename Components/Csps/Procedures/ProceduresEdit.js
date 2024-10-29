@@ -20,7 +20,7 @@ export default function ProceduresEdit ({ params }) {
     console.log("itemFinded")
     console.log(itemFinded)
     useEffect(()=>{
-        const api = "http://172.19.128.128:3061/api/csps/procedures/item"
+        const api = "http://172.19.128.128:3060/api/csps/procedures/item"
         fetch(api,{cache:"no-store"})
             .then( res => res.json())
             .then( data => {
@@ -40,7 +40,7 @@ export default function ProceduresEdit ({ params }) {
                 headers: {'Content-Type': 'text/plain'},
                 body: JSON.stringify(item)
             }
-            const api = "http://172.19.128.128:3061/api/csps/procedures/item"
+            const api = "http://172.19.128.128:3060/api/csps/procedures/item"
     
             const response = await fetch(api,requestOptions)
             const dataInfo = await response.json()
@@ -69,7 +69,7 @@ export default function ProceduresEdit ({ params }) {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(item)
             }
-            const api = "http://172.19.128.128:3061/api/csps/procedures/item"
+            const api = "http://172.19.128.128:3060/api/csps/procedures/item"
     
             const response = await fetch(api,requestOptions)
             const dataInfo = await response.json()
