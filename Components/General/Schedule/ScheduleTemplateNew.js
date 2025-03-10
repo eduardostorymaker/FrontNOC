@@ -256,7 +256,7 @@ export default function ScheduleTemplateNew ({ group }) {
                                                         console.log(item.file.split(".")[item.file.split(".").length - 1])
                                                     }
                                                     {
-                                                        "jpg/jpeg/png/tif".includes(item.file.split(".")[item.file.split(".").length - 1])
+                                                        "jpg/jpeg/png/tif/bmp/gif".includes(item.file.toLowerCase().split(".")[item.file.split(".").length - 1])
                                                         ?
                                                         <img src={linkImage(item.folder,item.file)} />
                                                         :
