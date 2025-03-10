@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Select from 'react-select'
 import CreatableSelect from 'react-select/creatable';
 import DatePicker from 'react-datepicker'
 import { format } from 'date-fns'
@@ -122,8 +121,370 @@ const oymsurList = [
 
 ]
 
+const oymnorteList = [
+    {
+        value:"Numa Cerna Vásquez",
+        label:"Numa Cerna Vásquez",
+        telefono:"976220514"
+    },
+    {
+        value:"Luciano Carrasco Acaro",
+        label:"Luciano Carrasco Acaro",
+        telefono:"959190361"
+    },
+    {
+        value:"Ronald Flores Pezo",
+        label:"Ronald Flores Pezo",
+        telefono:"993331583"
+    },
+    {
+        value:"Manuel Valeriano",
+        label:"Manuel Valeriano",
+        telefono:"943530104"
+    },
+    {
+        value:"Hentz Benavides Paredes",
+        label:"Hentz Benavides Paredes",
+        telefono:"997109088"
+    },
+    {
+        value:"Victor Gonzales",
+        label:"Victor Gonzales",
+        telefono:"949360129"
+    },
+    {
+        value:"Gabriel Yamunaque",
+        label:"Gabriel Yamunaque",
+        telefono:"979710102"
+    },
+    {
+        value:"Walter Aguilar",
+        label:"Walter Aguilar",
+        telefono:"976330103"
+    },
+    {
+        value:"Erik Alcántara Terán",
+        label:"Erik Alcántara Terán",
+        telefono:"942710130"
+    },
+    {
+        value:"José Honores",
+        label:"José Honores",
+        telefono:"972700103"
+    },
+    {
+        value:"Santos Alex Ruiz",
+        label:"Santos Alex Ruiz",
+        telefono:"942758998"
+    },
+    {
+        value:"Juan Pelaez",
+        label:"Juan Pelaez",
+        telefono:"966362648"
+    },
+    {
+        value:"Cesar Sullon",
+        label:"Cesar Sullon",
+        telefono:"966398042"
+    },
+    {
+        value:"Toribio Gonzales",
+        label:"Toribio Gonzales",
+        telefono:"997109107"
+    },
+    {
+        value:"Guerra Floreano, Christian Rodney",
+        label:"Guerra Floreano, Christian Rodney",
+        telefono:"980554780"
+    },
+    {
+        value:"David Holguin Alayo",
+        label:"David Holguin Alayo",
+        telefono:"997109248"
+    },
+    {
+        value:"Daniel Leal",
+        label:"Daniel Leal",
+        telefono:"997101174"
+    },
+    {
+        value:"Miguel Chavez Pinedo",
+        label:"Miguel Chavez Pinedo",
+        telefono:"997108576"
+    },
+    {
+        value:"Castellanos Rincon, Jesus Alfonso",
+        label:"Castellanos Rincon, Jesus Alfonso",
+        telefono:"997101210"
+    },
+    {
+        value:"Kevin Angelo Gutiérrez López",
+        label:"Kevin Angelo Gutiérrez López",
+        telefono:"997101552"
+    }
+
+]
+
+const oymcentroList = [
+    {
+        value:"Cesar D Villa Acuña",
+        label:"Cesar D Villa Acuña",
+        telefono:"997108874"
+    },
+    {
+        value:"Yoel Alejos",
+        label:"Yoel Alejos",
+        telefono:"997109095"
+    },
+    {
+        value:"Percy O Quispe Galvez",
+        label:"Percy O Quispe Galvez",
+        telefono:"959386165"
+    },
+    {
+        value:"Victor A Calle Jimenez",
+        label:"Victor A Calle Jimenez",
+        telefono:"962700101"
+    },
+    {
+        value:"Miguel O Carmen Apesteguia",
+        label:"Miguel O Carmen Apesteguia",
+        telefono:"997109280"
+    },
+    {
+        value:"Jesus D Soto Cajacuri",
+        label:"Jesus D Soto Cajacuri",
+        telefono:"993079461"
+    },
+    {
+        value:"Juseff I Galarza Corcuera",
+        label:"Juseff I Galarza Corcuera",
+        telefono:"997109304"
+    },
+    {
+        value:"Luis A Ormeño Sanchez",
+        label:"Luis A Ormeño Sanchez",
+        telefono:"964300104"
+    },
+    {
+        value:"Nillmer J Minchola Barzola",
+        label:"Nillmer J Minchola Barzola",
+        telefono:"997109212"
+    },
+    {
+        value:"Jesus E Donaires Chanca",
+        label:"Jesus E Donaires Chanca",
+        telefono:"997101362"
+    },
+    {
+        value:"Andres Infante Cuba",
+        label:"Andres Infante Cuba",
+        telefono:"997109168"
+    },
+    {
+        value:"Raul Galvez Escobar",
+        label:"Raul Galvez Escobar",
+        telefono:"941150960"
+    },
+    {
+        value:"David M Perez Oceda",
+        label:"David M Perez Oceda",
+        telefono:"965771126"
+    },
+    {
+        value:"Rosendo P Espinoza Carrasco",
+        label:"Rosendo P Espinoza Carrasco",
+        telefono:"962701149"
+    },
+    {
+        value:"Erman R Rodriguez Gonzales",
+        label:"Erman R Rodriguez Gonzales",
+        telefono:"997101364"
+    },
+    {
+        value:"Sergio A Araujo Pezo",
+        label:"Sergio A Araujo Pezo",
+        telefono:"965750393"
+    },
+    {
+        value:"Diogenes Mendoza",
+        label:"Diogenes Mendoza",
+        telefono:"997104684"
+    },
+    {
+        value:"Jeronimo D Chichipe Garcia",
+        label:"Jeronimo D Chichipe Garcia",
+        telefono:"942781189"
+    },
+    {
+        value:"Alex Panduro Valderrama",
+        label:"Alex Panduro Valderrama",
+        telefono:"961841226"
+    },
+    {
+        value:"Euler B Perez Navarro",
+        label:"Euler B Perez Navarro",
+        telefono:"961840100"
+    }
+
+]
+
+const pextsurList = [
+    {
+        value:"Ronald Pastrana",
+        label:"Ronald Pastrana",
+        telefono:"966365498"
+    },
+    {
+        value:"Emmanuel de la Gala",
+        label:"Emmanuel de la Gala",
+        telefono:"997101568"
+    },
+    {
+        value:"Pablo Mamani",
+        label:"Pablo Mamani",
+        telefono:"984730107"
+    },
+    {
+        value:"Julio Herrera",
+        label:"Julio Herrera",
+        telefono:"983768485"
+    },
+    {
+        value:"Antonio Añamuro",
+        label:"Antonio Añamuro",
+        telefono:"997109191"
+    },
+    {
+        value:"Xiomara Gutierrez",
+        label:"Xiomara Gutierrez",
+        telefono:"997101867"
+    },
+    {
+        value:"Jorge Mendoza",
+        label:"Jorge Mendoza",
+        telefono:"943530142"
+    },
+    {
+        value:"Fidel Casilla",
+        label:"Fidel Casilla",
+        telefono:"966365500"
+    }
+]
+
+const pextnorteList = [
+    {
+        value:"Juan Garces Chunga",
+        label:"Juan Garces Chunga",
+        telefono:"943530103"
+    },
+    {
+        value:"Luis Alberto Chero Coronado",
+        label:"Luis Alberto Chero Coronado",
+        telefono:"969715014"
+    },
+    {
+        value:"Jose Cueva Gomez",
+        label:"Jose Cueva Gomez",
+        telefono:"993584595"
+    },
+    {
+        value:"Pablo Barreto Fernandez",
+        label:"Pablo Barreto Fernandez",
+        telefono:"949706612"
+    },
+    {
+        value:"Erick Horna Varas",
+        label:"Erick Horna Varas",
+        telefono:"997892575"
+    },
+    {
+        value:"Walter Torres Tenorio",
+        label:"Walter Torres Tenorio",
+        telefono:"997101469"
+    },
+    {
+        value:"Giancarlo Julio Ascate Paz",
+        label:"Giancarlo Julio Ascate Paz",
+        telefono:"997892372"
+    },
+    {
+        value:"Agustin Chinchay Rivera",
+        label:"Agustin Chinchay Rivera",
+        telefono:"997101172"
+    },
+    {
+        value:"Oscar Alberto Rojas Castillo",
+        label:"Oscar Alberto Rojas Castillo",
+        telefono:"997101275"
+    },
+    {
+        value:"James Walter Santisteban Sernaque",
+        label:"James Walter Santisteban Sernaque",
+        telefono:"997109196"
+    },
+    {
+        value:"Walter Mitchel Cruz Sanchez",
+        label:"Walter Mitchel Cruz Sanchez",
+        telefono:"949147396"
+    },
+    {
+        value:"Santos Joselito Menor Alarcon",
+        label:"Santos Joselito Menor Alarcon",
+        telefono:"993002631"
+    }
+]
+
+const botn = [
+    {
+        value:"Smith Escobar",
+        label:"Smith Escobar",
+        telefono:"997992688"
+    },
+    {
+        value:"Jacques Laurent",
+        label:"Jacques Laurent",
+        telefono:"997992688"
+    },
+    {
+        value:"José Gamarra",
+        label:"José Gamarra",
+        telefono:"997992688"
+    },
+    {
+        value:"Gerardo Mejía",
+        label:"Gerardo Mejía",
+        telefono:"997992688"
+    },
+    {
+        value:"Caroline Medina",
+        label:"Caroline Medina",
+        telefono:"997992688"
+    },
+    {
+        value:"Eva Mendoza",
+        label:"Eva Mendoza",
+        telefono:"997992688"
+    },
+    {
+        value:"Robert Sanchez",
+        label:"Robert Sanchez",
+        telefono:"997992688"
+    },
+    {
+        value:"Diego Tafur",
+        label:"Diego Tafur",
+        telefono:"997992688"
+    }
+]
+
 const soporteList = [
-    ...oymsurList.map(item => ({...item, group:"OyM SUR", inc:""}))
+    ...oymsurList.map(item => ({...item, group:"OyM", inc:""})),
+    ...oymnorteList.map(item => ({...item, group:"OyM", inc:""})),
+    ...oymcentroList.map(item => ({...item, group:"OyM", inc:""})),
+    ...pextsurList.map(item => ({...item, group:"PEXT", inc:""})),
+    ...pextnorteList.map(item => ({...item, group:"PEXT", inc:""})),
+    ...botn.map(item => ({...item, group:"BOTN", inc:""}))
 ]
 
 export default function PlantillaSMSComponent ({params}) {
