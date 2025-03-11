@@ -561,7 +561,7 @@ ${v.inc}`
 
     const sms = `*${params.noc.replaceAll("_"," ").toUpperCase()}*
 
-TIPO DE MENSAJE: ${etapa}
+TIPO DE MENSAJE: *${etapa}*
 TICKET ASIGNADO:
 ${ticketSummary}
            
