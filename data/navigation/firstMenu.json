@@ -12,26 +12,32 @@
             },
             { 
                 "id":2,
+                "tag": "SMS",
+                "link": "/general/plantillasms",
+                "selected": false
+            },
+            { 
+                "id":3,
                 "tag": "Contactos",
                 "link": "/general/contacts",
                 "selected": false
                 
             },
             { 
-                "id":3,
+                "id":4,
                 "tag": "Horarios",
                 "link": "/general/schedulesv2",
                 "selected": false
             },
             { 
-                "id":4,
+                "id":5,
                 "tag": "CRQs Observaciones",
                 "link": "/general/infocrq",
                 "selected": false
             }
             ,
             { 
-                "id":5,
+                "id":6,
                 "tag": "Lista sites",
                 "link": "/sitestopology",
                 "selected": false
