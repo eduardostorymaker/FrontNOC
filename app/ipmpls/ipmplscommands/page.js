@@ -109,7 +109,7 @@ export default function ipmplscommands () {
             id: 7,
             description:"Ver protocolo OSPF",
             zte: [
-                
+                "show ip ospf neighbor"
             ],
             huawei:[
                 "display ospf peer"

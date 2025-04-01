@@ -34,7 +34,7 @@ export default function PlantillaSMSComponent ({params}) {
     const [fechaFin,setFechaFin] = useState(add(new Date(), { hours: 3 }))
     const [impacto,setImpacto] = useState(`\t*SIN AFECTACIÓN DE SERVICIOS*`)
     const [responsables,setRespondables] = useState([])
-    const [actualizaciones,setActualizaciones] = useState([{hora:new Date(), actualizacion: ""}])
+    const [actualizaciones,setActualizaciones] = useState([{id:1,hora:new Date("2023-05-05 18:00"), actualizacion: "test 1"},{id:2,hora:new Date("2023-05-05 15:30"), actualizacion: "test 1"},{id:3,hora:new Date("2024-10-02"), actualizacion: "123123"}])
     const [soporteList,setSoporteList] = useState("") 
 
     const [groupList,setGroupList] = useState("")
@@ -94,9 +94,9 @@ ${v.inc}`
     const responsablesToText = responsables.reduce((a,v)=>{
         if (a) {
             return `${a}
-\t${v.grupotag.toUpperCase()} ${v.nombre.toUpperCase()} Tel - ${v.telefono.toUpperCase()}${v.inc?` - ${v.inc}`:""}`
+\t${v.grupotag.toUpperCase()} ${v.nombre.toUpperCase()} ${v.telefono?`Tel - ${v.telefono}`:""}${v.inc?` - ${v.inc}`:""}`
         } else {
-            return `\t${v.grupotag.toUpperCase()} ${v.nombre.toUpperCase()} Tel - ${v.telefono.toUpperCase()}${v.inc?` - ${v.inc}`:""}`
+            return `\t${v.grupotag.toUpperCase()} ${v.nombre.toUpperCase()} ${v.telefono?`Tel - ${v.telefono}`:""}${v.inc?` - ${v.inc}`:""}`
         }
     },``)
 
@@ -115,8 +115,76 @@ ${v.inc}`
         } ));
       };
 
-    const actulizacionesToText = `${format(actualizaciones[0].hora,'dd/MM/yyyy')}
-\t* ${format(actualizaciones[0].hora,'HH:mm')} hrs ${actualizaciones[0].actualizacion}`
+//     const actulizacionesToText = actualizaciones[0].actualizacion?`${format(actualizaciones[0].hora,'dd/MM/yyyy')}
+// \t* ${format(actualizaciones[0].hora,'HH:mm')} hrs ${actualizaciones[0].actualizacion}`:""
+
+const actulizacionesToDataFormated = (dataToChange) => dataToChange.sort((a, b) => a.hora - b.hora).reduce((a,v) => {
+    const myDate = format(v.hora,'dd/MM/yyyy')
+    if (!a.length) {
+        return ([
+            {
+                date: myDate,
+                updates: [{time: format(v.hora,'HH:mm'),update:v.actualizacion}]
+            }
+        ])
+    } else {
+        if (a.find(item => item.date === myDate)) {
+            return a.map( item => {
+                if (item.date === myDate) {
+                    return({
+                        ...item,
+                        date: item.date,
+                        updates: [...item.updates,{time: format(v.hora,'HH:mm'),update:v.actualizacion}]
+                    })
+                } else {
+                    return({...item})
+                }
+            })
+        } else {
+            return([
+                ...a,
+                {
+                    date: myDate,
+                    updates: [{time: format(v.hora,'HH:mm'),update:v.actualizacion}]
+                }
+            ])
+        }
+    }
+
+},[])
+
+const actualizacionesItemsToText = (arrayItems) => arrayItems.reduce((a,v)=>{
+    if (a) {
+        return `${a}
+\t* ${v.time} hrs - ${v.update}`
+    } else {
+        return `\t* ${v.time} hrs - ${v.update}`
+    }
+},"")
+
+const actulizacionesToText = (dataToChange) => dataToChange.reduce((a,v) => {
+    if (a) {
+        if (v.updates[0].update) {
+            return `${a}
+${v.date}
+${actualizacionesItemsToText(v.updates)}`
+        } else {
+            return a
+        }
+        
+    } else {
+        if (v.updates[0].update) {
+            return `${v.date}
+${actualizacionesItemsToText(v.updates)}`
+        } else {
+            return ""
+        }
+
+    }
+},"") 
+
+console.log(actulizacionesToText(actulizacionesToDataFormated(actualizaciones)))
+
 
 
 ///////////////////////////////START SMS
@@ -137,7 +205,7 @@ ${impacto}
 ${responsablesToText}
 
 *${etapa === "CIERRE"?`SOLUCIONADO (${fechaFinToText})`:"ACTUALIZACIÓN"}:*
-${actulizacionesToText}
+${actulizacionesToText(actulizacionesToDataFormated(actualizaciones))}
 
 *HORA DE SOLUCION:* ${fechaFinToText}`
 
@@ -314,15 +382,22 @@ ${actulizacionesToText}
                                     <div className="">
                                         {
                                             actualizaciones.map( item =>
-                                                <div className="grid grid-cols-[1fr_4fr]  h-[44px]">
+                                                <div key={item.id} className="grid grid-cols-[1fr_4fr]  h-[44px]">
                                                     <div className="h-full">
                                                         <DatePicker
                                                             selected={item.hora}
                                                             onChange={(e)=>setActualizaciones(actualizaciones.map(itemAct => {
-                                                                return({
-                                                                    ...itemAct,
-                                                                    hora: e
-                                                                })
+                                                                if (itemAct.id === item.id) {
+                                                                    return ({
+                                                                        ...itemAct,
+                                                                        hora: e
+
+                                                                    })
+                                                                } else {
+                                                                    return ({
+                                                                        ...itemAct
+                                                                    }) 
+                                                                }
                                                             } ))}
                                                             showTimeSelect
                                                             timeIntervals={1}
@@ -338,10 +413,17 @@ ${actulizacionesToText}
                                                             className="w-full px-2 border border-gray-300 shadow-sm focus:outline-none focus:ring focus:border-blue-300" 
                                                             spellCheck={false}
                                                             onChange={(e)=>setActualizaciones(actualizaciones.map(itemAct => {
-                                                                return({
-                                                                    ...itemAct,
-                                                                    actualizacion: e.target.value
-                                                                })
+                                                                if (itemAct.id === item.id) {
+                                                                    return ({
+                                                                        ...itemAct,
+                                                                        actualizacion: e.target.value
+
+                                                                    })
+                                                                } else {
+                                                                    return ({
+                                                                        ...itemAct
+                                                                    }) 
+                                                                }
                                                             } ))}
                                                         />
                                                     </div>
@@ -355,7 +437,7 @@ ${actulizacionesToText}
                     </div>
                     <div className="w-full h-full p-2 ">
                         <div className="w-full h-full">
-                            <textarea value={sms} className="w-full h-full p-2" spellCheck="false" />
+                            <textarea value={sms} className="w-full h-full p-2" spellCheck="false" readOnly />
                         </div>
                     </div>
                 </div>
