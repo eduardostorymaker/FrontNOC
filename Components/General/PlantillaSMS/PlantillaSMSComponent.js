@@ -23,6 +23,9 @@ const dataEtapa = [
     }
 ]
 
+const updateListTest = [{id:1,hora:new Date("2023-05-05 18:00"), actualizacion: "test 1"},{id:2,hora:new Date("2023-05-05 15:30"), actualizacion: "test 1"},{id:3,hora:new Date("2024-10-02"), actualizacion: "123123"}]
+const onlyOneUpdate = [{id:1,hora:new Date(), actualizacion: ""}]
+
 export default function PlantillaSMSComponent ({params}) {
 
     const [selectedOptions, setSelectedOptions] = useState([]);
@@ -34,7 +37,7 @@ export default function PlantillaSMSComponent ({params}) {
     const [fechaFin,setFechaFin] = useState(add(new Date(), { hours: 3 }))
     const [impacto,setImpacto] = useState(`\t*SIN AFECTACIÓN DE SERVICIOS*`)
     const [responsables,setRespondables] = useState([])
-    const [actualizaciones,setActualizaciones] = useState([{id:1,hora:new Date("2023-05-05 18:00"), actualizacion: "test 1"},{id:2,hora:new Date("2023-05-05 15:30"), actualizacion: "test 1"},{id:3,hora:new Date("2024-10-02"), actualizacion: "123123"}])
+    const [actualizaciones,setActualizaciones] = useState(onlyOneUpdate)
     const [soporteList,setSoporteList] = useState("") 
 
     const [groupList,setGroupList] = useState("")
@@ -231,6 +234,8 @@ ${actulizacionesToText(actulizacionesToDataFormated(actualizaciones))}
             }, 0)
         }
     }
+
+    const mailData = `mailto:gestionysupervision@claro.com.pe?subject=SMS%20Jefes%20Inicial:%20${falla},%20${fechaInicioToText}`
 
     return(
         <div >
@@ -437,6 +442,9 @@ ${actulizacionesToText(actulizacionesToDataFormated(actualizaciones))}
                     </div>
                     <div className="w-full h-full p-2 ">
                         <div className="w-full h-full">
+                            <div className="flex justify-end">
+                                <a href={mailData} className="p-2 bg-yellow-400 text-white">Correo</a>
+                            </div>
                             <textarea value={sms} className="w-full h-full p-2" spellCheck="false" readOnly />
                         </div>
                     </div>
